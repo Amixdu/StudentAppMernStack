@@ -47,6 +47,37 @@ app.post('/api/login', async (req, res) => {
 })
 
 
+app.get('/api/notes', async (req, res) => {
+    const token = req.headers['x-access-token']
+
+    try{
+        const decodedData = jwt.verify(token, process.env.ACCESS_TOKEN)
+        const email = decodedData.email
+        const user = await User.findOne({ email: email })
+        return res.json({ status: 'ok', notes: user.notes })
+    }
+    catch(error){
+        console.log(error)
+
+    }  
+})
+
+
+app.post('/api/notes', async (req, res) => {
+    const token = req.headers['x-access-token']
+
+    try{
+        const decodedData = jwt.verify(token, process.env.ACCESS_TOKEN)
+        const email = decodedData.email
+        await User.updateOne({ email: email }, { $set: { notes:req.body.quote }})
+        return res.json({ status: 'ok' })
+    }
+    catch(error){
+        console.log(error)
+        
+    }  
+})
+
 
 app.listen(8000, () => {
     console.log("Started on: http://localhost:8000/")
