@@ -1,8 +1,16 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useJwt } from "react-jwt";
 import { Link, useNavigate } from 'react-router-dom'
+import { Modal, Form, Alert, Container, Card } from 'react-bootstrap'
 
 export default function Notes() {
+  const [notes, setNotes] = useState()
+  const [title, setTitle] = useState()
+  const [description, setDescription] = useState()
+  const [showUpdateModal, setShowUpdateModal] = useState()
+  const [clikedNoteTitle, setClikedNoteTitle] = useState()
+  const [clikedNoteDescription, setClikedNoteDescription] = useState()
+
   const navigate = useNavigate()
   
   const getNotes = async () => {
@@ -12,8 +20,14 @@ export default function Notes() {
       }
     })
 
-    const data = req.json()
-    console.log(data)
+    const data = await req.json()
+    if (data.status == 'ok'){
+      setNotes(data.notes)
+      console.log('HELLO')
+    }
+    else{
+      console.log('BYE')
+    }
   }
 
   useEffect(() => {
@@ -28,6 +42,6 @@ export default function Notes() {
   }, [])
 
   return (
-    <div>Notes</div>
+    <div>{notes || 'No Notes' }</div>
   )
 }
