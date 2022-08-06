@@ -3,15 +3,32 @@ import React, { useRef, useState } from 'react'
 import { Form, Button, Card, Container } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 
+
 export default function CreateUser() {
-  const emailRef = useRef()
+  const [email, setEmail] = useState()
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 //   const history = useNavigate()
 
+  
   async function handleSubmit(e){
     e.preventDefault()
+    const response = await fetch('http://localhost:8000/api/create', {
+      method: 'POST',
+      headers:{
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({
+        email
+      })
+    })
+
+    const data = await response.json()
+    console.log(data)
+
+    setLoading(false)
   }
+
 
   return (
     <div style={{ backgroundColor:'#1569C7' }}>
@@ -30,7 +47,9 @@ export default function CreateUser() {
 
                 <Form.Group id="email">
                   <Form.Label>Email</Form.Label>
-                  <Form.Control type="email" ref={emailRef} required></Form.Control>
+                  <Form.Control type="email" required onChange={(e) =>
+                    setEmail(e.target.value)}>
+                  </Form.Control>
                 </Form.Group>
 
                 <br></br>
@@ -42,7 +61,6 @@ export default function CreateUser() {
               </Form>
             </Card.Body>
           </Card>
-          
         </div>
       </Container>
     </div>
