@@ -13,6 +13,7 @@ export default function Login() {
 //   const history = useNavigate()
 
   async function handleSubmit(e){
+    e.preventDefault()
     const response = await fetch('http://localhost:8000/api/login', {
       method: 'POST',
       headers:{
@@ -24,7 +25,13 @@ export default function Login() {
     })
 
     const data = await response.json()
-    console.log(data)
+    
+    if (data.user){
+        console.log('Login Successful')
+    }
+    else{
+        console.log('Login Failed')
+    }
 
     setLoading(false)
   }
