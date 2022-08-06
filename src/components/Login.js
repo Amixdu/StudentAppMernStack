@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { Alert } from 'react-bootstrap'
 import { Form, Button, Card, Container } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
@@ -13,24 +13,26 @@ export default function Login() {
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
 
-  async function handleSubmit(e){
-    e.preventDefault()
-    setLoading(true)
-    const response = await fetch('http://localhost:8000/api/login', {
-      method: 'POST',
-      headers:{
-        'Content-Type' : 'application/json'
-      },
-      body: JSON.stringify({
-        email
-      })
+    async function handleSubmit(e){
+        e.preventDefault()
+        setLoading(true)
+
+        const response = await fetch('http://localhost:8000/api/login', {
+        method: 'POST',
+        headers:{
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify({
+            email
+        })
     })
 
     const data = await response.json()
     
     if (data.user){
+        localStorage.setItem('token', data.user)
+        setSuccess(true)
         navigate('/notes')
-        setSuccess(false)
         console.log('Login Successful')
     }
     else{
@@ -41,6 +43,10 @@ export default function Login() {
 
     setLoading(false)
   }
+
+  useEffect(() => {
+    localStorage.removeItem('token')
+  }, [])
 
   return (
     <div style={{ backgroundColor:'#1569C7' }}>
