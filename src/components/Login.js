@@ -2,18 +2,20 @@ import React, { useRef, useState } from 'react'
 import { Alert } from 'react-bootstrap'
 import { Form, Button, Card, Container } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
+import Loader from './Loader'
 
 export default function Login() {
 
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
-    const [error, setError] = useState('')
+    const [errorMsg, setErrorMsg] = useState('')
     const [success, setSuccess] = useState(false)
     const [loading, setLoading] = useState(false)
-//   const history = useNavigate()
+    const navigate = useNavigate()
 
   async function handleSubmit(e){
     e.preventDefault()
+    setLoading(true)
     const response = await fetch('http://localhost:8000/api/login', {
       method: 'POST',
       headers:{
@@ -27,9 +29,13 @@ export default function Login() {
     const data = await response.json()
     
     if (data.user){
+        navigate('/notes')
+        setSuccess(false)
         console.log('Login Successful')
     }
     else{
+        setErrorMsg('Login Failed')
+        setSuccess(false)
         console.log('Login Failed')
     }
 
@@ -47,7 +53,7 @@ export default function Login() {
             <Card.Body>
               <h2 className="text-center mb-4">Login Page</h2>
               {/* {auth.currentUser.email} */}
-              {success? <Alert>Success</Alert> : error && <Alert variant='danger'>{error}</Alert>}
+              {success ? '' : errorMsg && <Alert variant='danger'>{errorMsg}</Alert>}
 
               <Form onSubmit={handleSubmit}>
                 <Form.Group id="email">
