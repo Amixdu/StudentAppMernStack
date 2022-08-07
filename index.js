@@ -9,7 +9,15 @@ const jwt = require('jsonwebtoken')
 app.use(cors())
 app.use(express.json())
 
-mongoose.connect('mongodb://localhost:27017/internship-assignment')
+const CONNECTION_URL = 'mongodb+srv://amin:qwerty1029384756@cluster0.qnehnrn.mongodb.net/?retryWrites=true&w=majority'
+const PORT = process.env.PORT || 8000
+
+mongoose.connect(CONNECTION_URL)
+    .then(() => app.listen(PORT, () => {
+        console.log("Successfully connected to database!")
+        console.log("Started on: http://localhost:8000/")
+    }))
+    .catch(() => console.log("Databse connection failed"))
 
 app.post('/api/create', async (req, res) => {
     console.log(req.body)
@@ -62,6 +70,20 @@ app.get('/api/notes', async (req, res) => {
     }  
 })
 
+app.post('/api/add-notes', async (req, res) => {
+    const token = req.headers['x-access-token']
+
+    try{
+        const decodedData = jwt.verify(token, process.env.ACCESS_TOKEN)
+        const email = decodedData.email
+        await User.updateOne({ email: email }, { $set: { notes:req.body.quote }})
+        return res.json({ status: 'ok' })
+    }
+    catch(error){
+        return res.json({ status: 'error' })
+    }  
+})
+
 
 app.post('/api/notes', async (req, res) => {
     const token = req.headers['x-access-token']
@@ -73,12 +95,8 @@ app.post('/api/notes', async (req, res) => {
         return res.json({ status: 'ok' })
     }
     catch(error){
-        console.log(error)
-        
+        return res.json({ status: 'error' })
     }  
 })
 
 
-app.listen(8000, () => {
-    console.log("Started on: http://localhost:8000/")
-})
