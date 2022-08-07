@@ -13,7 +13,7 @@ export default function CreateUser() {
   
   async function handleSubmit(e){
     e.preventDefault()
-    const response = await fetch('http://localhost:8000/api/create', {
+    const response = await fetch('http://localhost:8000/users/create', {
       method: 'POST',
       headers:{
         'Content-Type' : 'application/json'
