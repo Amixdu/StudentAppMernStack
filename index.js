@@ -28,7 +28,7 @@ mongoose.connect(CONNECTION_URL)
         console.log("Successfully connected to database!")
         console.log("Started on: http://localhost:8000/")
     }))
-    .catch(() => console.log("Databse connection failed"))
+    .catch((err) => console.log(err))
 
 
 // app.post('/api/add-notes', async (req, res) => {
