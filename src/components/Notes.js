@@ -172,14 +172,14 @@ export default function Notes() {
                   Object.entries(fetchedNotes).map((note) => {
                     const [key, value] = note
                     return (
-                      <Card>
+                      <Card key={value._id}>
                         <Card.Body>
                           <Card.Title>
-                            <p style={{ fontSize:'30px', display:'inline-block' }}>{value.title}</p>
+                            <p style={{ fontSize:'30px' }}>{value.title}</p>
                           </Card.Title>
 
-                          <Card.Text>
-                            <p style={{ fontSize:'20px', display:'inline-block' }}>{value.description}</p>
+                          <Card.Text style={{ fontSize:'20px' }}>
+                            {value.description}
                           </Card.Text>
 
                           <Button onClick={() => handleUpdateModalShow(value._id, value.title, value.description)} className='mb-2'>Update</Button>
