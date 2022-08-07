@@ -3,6 +3,7 @@ import { useJwt } from "react-jwt";
 import { Link, useNavigate } from 'react-router-dom'
 import { Modal, Button, Form, Alert, Container, Card } from 'react-bootstrap'
 import Loader from './Loader'
+import LoaderMiddle from './LoaderMiddle';
 import "./Notes.css"
 
 export default function Notes() {
@@ -15,8 +16,10 @@ export default function Notes() {
   const [title, setTitle] = useState()
   const [description, setDescription] = useState()
   
+  const [clickedNoteId, setClickedNoteId] = useState()
   const [clikedNoteTitle, setClikedNoteTitle] = useState()
   const [clikedNoteDescription, setClikedNoteDescription] = useState()
+
   const [loading, setLoading] = useState()
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
@@ -28,8 +31,22 @@ export default function Notes() {
 
   const navigate = useNavigate()
 
-  const handleAddModalClose = () => setShowAddModal(false);
+  const handleAddModalClose = () => setShowAddModal(false)
   const handleAddModalShow = () => setShowAddModal(true)
+
+  const handleRemoveModalClose = () => setShowDeleteModal(false);
+  const handleRemoveModalShow = (id) => {
+      setClickedNoteId(id)
+      setShowDeleteModal(true)
+  }
+
+  const handleUpdateModalClose = () => setShowUpdateModal(false);
+  const handleUpdateModalShow = (id, title, description) => {
+    setClickedNoteId(id)
+    setClikedNoteTitle(title)
+    setClikedNoteDescription(description)
+    setShowUpdateModal(true)
+  }
 
   const handleAdd = async () => {
     const req = await fetch('http://localhost:8000/notes', {
@@ -55,11 +72,53 @@ export default function Notes() {
   }
 
   const handleUpdate = async () => {
+    const req = await fetch('http://localhost:8000/notes/update', {
+      method: 'POST',
+      headers:{
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token')
+      },
+      body: JSON.stringify({
+        id: clickedNoteId,
+        title: clikedNoteTitle,
+        description: clikedNoteDescription
+      })
+    })
 
+    const data = await req.json()
+
+    if (data.status == 'ok'){
+      setFetchedNotes(data.notes)
+      console.log('Note Added Successfully')
+    }
+    else{
+      console.log('There was an error in updating the note')
+    }
   }
 
   const handleDelete = async () => {
+    const req = await fetch('http://localhost:8000/notes/delete', {
+      method: 'POST',
+      headers:{
+        'Content-Type': 'application/json',
+        'x-access-token': localStorage.getItem('token')
+      },
+      body: JSON.stringify({
+        id: clickedNoteId
+      })
+    })
 
+    const data = await req.json()
+
+    if (data.status == 'ok'){
+      setFetchedNotes(data.notes)
+      setShowDeleteModal(false)
+      setReload(!reload)
+      console.log('Note Deleted Successfully')
+    }
+    else{
+      console.log('There was an error in deleting the note')
+    }
   }
   
   const getNotes = async () => {
@@ -90,7 +149,7 @@ export default function Notes() {
       console.log("sdbghabsdhgbsdhgh")
       getNotes()
     }
-  }, [])
+  }, [reload])
 
   return (
     <>
@@ -122,6 +181,11 @@ export default function Notes() {
                           <Card.Text>
                             <p style={{ fontSize:'20px', display:'inline-block' }}>{value.description}</p>
                           </Card.Text>
+
+                          <Button onClick={() => handleUpdateModalShow(value._id, value.title, value.description)} className='mb-2'>Update</Button>
+                            {' '}
+                          <Button onClick={() => handleRemoveModalShow(value._id)} variant='danger'  className='mb-2'>Remove</Button>
+
                         </Card.Body>
                       </Card>
                     )
@@ -140,7 +204,7 @@ export default function Notes() {
               </div>
             </Container>
           )
-        ) : <Loader />
+        ) : <LoaderMiddle col='primary'/>
       }
       
 
@@ -169,6 +233,49 @@ export default function Notes() {
                 </Button>
               </Form>
 
+          </Modal.Body>
+      </Modal>
+
+      <Modal show={showUpdateModal} onHide={handleUpdateModalClose}>
+          {loading && <Loader backgCol={'light'}/>}
+
+          <Modal.Header closeButton>
+            <Modal.Title> Update Show Details</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            {error && <Alert variant='danger'>{error}</Alert>}
+            <Form onSubmit={handleUpdate}>
+
+              <Form.Group id="title" className='mb-3'>
+                <Form.Label>Title</Form.Label>
+                <Form.Control type="text" required defaultValue={clikedNoteTitle} onChange={(e) => {setClikedNoteTitle(e.target.value)}}></Form.Control>
+              </Form.Group>
+
+              <Form.Group id="description" className='mb-3'>
+                <Form.Label>Description</Form.Label>
+                <Form.Control as="textarea" rows={3} required defaultValue={clikedNoteDescription} onChange={(e) => {setClikedNoteDescription(e.target.value)}}></Form.Control>
+              </Form.Group>
+
+              <Button disabled={loading} className='w-100' type="submit">
+                Save Changes
+              </Button>
+
+            </Form>
+          </Modal.Body>
+      </Modal>
+
+      <Modal show={showDeleteModal} onHide={handleRemoveModalClose}>
+          {loading && <Loader backgCol={'light'}/>}
+          <Modal.Header closeButton>
+              <Modal.Title style={{ textAlign:"center" }}> Are you sure you want to delete this note? </Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+              {error && <Alert variant='danger'>{error}</Alert>}
+              <Button disabled={loading} className='w-100' onClick={handleDelete}>
+                  Confirm
+              </Button>
           </Modal.Body>
       </Modal>
     </>
