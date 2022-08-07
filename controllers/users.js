@@ -29,9 +29,8 @@ export const loginUser = async (req, res) => {
     const user = await User.findOne({ email: req.body.email, password: req.body.password })
     if (user) {
         console.log("YES")
-        const token = jwt.sign({
-            email: req.body.email
-        }, process.env.ACCESS_TOKEN)
+        const user = { email: req.body.email }
+        const token = jwt.sign(user, process.env.ACCESS_TOKEN)
 
         return res.json({ status: 'success', user: token})
     }
