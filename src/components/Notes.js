@@ -27,6 +27,7 @@ export default function Notes() {
     }
     else{
       console.log('BYE')
+      navigate('/login')
     }
   }
 
