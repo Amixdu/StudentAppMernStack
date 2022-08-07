@@ -8,10 +8,11 @@ export const getNotes = async (req, res) => {
     const token = req.headers['x-access-token']
 
     try{
-        const decodedData = jwt.verify(token, process.env.ACCESS_TOKEN)
-        const email = decodedData.email
-        const user = await User.findOne({ email: email })
-        return res.json({ status: 'ok', notes: user.notes })
+        const user = jwt.verify(token, process.env.ACCESS_TOKEN)
+        const email = user.email
+        const data = await Note.find({ email: email })
+        console.log(data)
+        return res.json({ status: 'ok', notes: data })
     }
     catch(error){
         return res.json({ status: 'error' })
