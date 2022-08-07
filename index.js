@@ -57,7 +57,7 @@ app.get('/api/notes', async (req, res) => {
         return res.json({ status: 'ok', notes: user.notes })
     }
     catch(error){
-        console.log(error)
+        return res.json({ status: 'error' })
 
     }  
 })
