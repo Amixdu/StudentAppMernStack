@@ -3,12 +3,13 @@ import { useJwt } from "react-jwt";
 import { Link, useNavigate } from 'react-router-dom'
 import { Modal, Button, Form, Alert, Container, Card } from 'react-bootstrap'
 import Loader from './Loader'
+import "./Notes.css"
 
 export default function Notes() {
   const titleRef = useRef()
   const descriptionRef = useRef()
 
-  const [notes, setNotes] = useState()
+  const [fetchedNotes, setFetchedNotes] = useState()
   const [newNoteTitle, setNewNoteTitle] = useState()
   const [newNoteDescription, setNewNoteDescription] = useState()
   const [title, setTitle] = useState()
@@ -38,14 +39,14 @@ export default function Notes() {
         'x-access-token': localStorage.getItem('token')
       },
       body: JSON.stringify({
-        newTitle: newNoteTitle,
-        newDescription: newNoteDescription
+        title: newNoteTitle,
+        description: newNoteDescription
       })
     })
 
     const data = await req.json()
     if (data.status == 'ok'){
-      setNotes(data.notes)
+      setFetchedNotes(data.notes)
       console.log('Note Added Successfully')
     }
     else{
@@ -70,8 +71,9 @@ export default function Notes() {
 
     const data = await req.json()
     if (data.status == 'ok'){
-      setNotes(data.notes)
-      console.log('HELLO')
+      setFetchedNotes(data.notes.length > 0 ? data.notes : 'Empty')
+      
+      // console.log(data.notes)
     }
     else{
       console.log('BYE')
@@ -92,14 +94,55 @@ export default function Notes() {
 
   return (
     <>
-      <Container className='d-flex align-items-center justify-content-center' style={{ minHeight: "95vh" }}>
-        <div>
-            <p style={{ fontSize:'35px' }}> No Notes Available </p>
-            <Link to="/home" className='btn btn-primary'>Go Back</Link>
-            {'  '}
-            <Button onClick={() => handleAddModalShow()} className=''>Add Notes</Button>
-        </div>
-      </Container>
+      {
+        fetchedNotes ?
+        (
+          fetchedNotes !== 'Empty' ? (
+            <>
+              <div className='box'>
+                <h2 style={{ fontSize:'50px', fontWeight:"bold", fontFamily:"Georgia, serif" }}>Notes</h2>
+                {/* <div className='buttonRight'> */}
+                    <Link to="/login" className='btn btn-primary'>Log Out</Link>
+                    {'  '}
+                    <Button onClick={() => handleAddModalShow()} className=''>Add Notes</Button>
+                {/* </div> */}
+              </div> 
+
+              <div className='mt-4'>
+                {
+                  Object.entries(fetchedNotes).map((note) => {
+                    const [key, value] = note
+                    return (
+                      <Card>
+                        <Card.Body>
+                          <Card.Title>
+                            <p style={{ fontSize:'30px', display:'inline-block' }}>{value.title}</p>
+                          </Card.Title>
+
+                          <Card.Text>
+                            <p style={{ fontSize:'20px', display:'inline-block' }}>{value.description}</p>
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+                    )
+                  })
+                }
+              </div>
+            </>
+          ) : 
+          (
+            <Container className='d-flex align-items-center justify-content-center' style={{ minHeight: "95vh" }}>
+              <div>
+                  <p style={{ fontSize:'35px' }}> No Notes Available </p>
+                  <Link to="/home" className='btn btn-primary'>Go Back</Link>
+                  {'  '}
+                  <Button onClick={() => handleAddModalShow()} className=''>Add Notes</Button>
+              </div>
+            </Container>
+          )
+        ) : <Loader />
+      }
+      
 
       <Modal show={showAddModal} onHide={handleAddModalClose}>
           {loading && <Loader backgCol={'light'}/>}
