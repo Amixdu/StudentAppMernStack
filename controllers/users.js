@@ -1,26 +1,65 @@
 import User from '../models/user.model.js'
 import jwt from 'jsonwebtoken'
+import nodemailer from 'nodemailer'
 import dotenv from 'dotenv'
 dotenv.config()
 
+const generateTempPassword = () => {
+    var pass = '';
+    const str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$';
+    for (let i = 1; i <= 8; i++) {
+        var char = Math.floor(Math.random() * str.length + 1);
+        pass += str.charAt(char)
+    }
+        
+    return pass;
+}
+
+const sendEmail = (email, password, link) => {
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'serveraccinternship@gmail.com',
+          pass: 'mpppdxpzjdpjctzz'
+        }
+    });
+
+    const mailOptions = {
+        from: 'serveraccinternsip@gmail.com',
+        to: email,
+        subject: 'Login Details',
+        text: 'Click ' + link + ' and enter the password: ' + password
+    };
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+    });
+
+}
+
 export const createUser = async (req, res) => {
     console.log(req.body)
+    const tempPw = generateTempPassword()
     try{
         const user = await User.create({
-            id: 2,
-            firstName: 'Test',
-            lastName:'TestLast',
+            firstName: ' ',
+            lastName:' ',
             email: req.body.email,
-            dateOfBirth: new Date('December 17, 1995 03:24:00'),
-            mobile: 123456,
-            status: false,
-            password: 'password',
-            accountType: 'testType'
+            dateOfBirth: new Date(),
+            mobile: 0,
+            status: true,
+            password: tempPw,
+            accountType: 'student'
         })
+        sendEmail(req.body.email, tempPw, 'http://localhost:3000/login')
         res.json({ status: 'success' })
-        // res.send(user)
     } 
-    catch{
+    catch(e){
+        console.log(e)
         res.json({ status: 'error' })
     }
 }
@@ -32,7 +71,7 @@ export const loginUser = async (req, res) => {
         const user = { email: req.body.email }
         const token = jwt.sign(user, process.env.ACCESS_TOKEN)
 
-        return res.json({ status: 'success', user: token, userStatus: userData.status })
+        return res.json({ status: 'success', user: token, userStatus: userData.status, accountType: userData.accountType })
     }
     else{
         console.log("NO")
@@ -41,7 +80,7 @@ export const loginUser = async (req, res) => {
 }
 
 
-export const updateUser = async (req, res) => {
+export const addUserInfo = async (req, res) => {
     const token = req.headers['x-access-token']
 
     try{
@@ -56,7 +95,7 @@ export const updateUser = async (req, res) => {
                 dateOfBirth: req.body.dateOfBirth,
                 mobile: req.body.mobile,
                 status: false,
-                password: userData.password,
+                password: req.body.resetPassword,
                 accountType: userData.accountType
             }})
         console.log('User Details Updated')
