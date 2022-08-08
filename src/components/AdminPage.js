@@ -25,7 +25,6 @@ export default function AdminPage() {
 
     const navigate = useNavigate()
 
-
     const handleDetailsModalOpen = (id, fName, lName, email, dob, mobile, status, aType) => {
         setClickedID(id)
         setClickedFirstName(fName)
@@ -199,7 +198,7 @@ export default function AdminPage() {
                             </tr>
 
                             <tr>
-                                <td><strong>Status: </strong></td>
+                                <td><strong>Status (First time login): </strong></td>
                                 <td>{clickedStatus}</td>
                             </tr>
 
