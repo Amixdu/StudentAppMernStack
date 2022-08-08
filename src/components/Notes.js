@@ -49,6 +49,7 @@ export default function Notes() {
   }
 
   const handleAdd = async () => {
+    setLoading(true)
     const req = await fetch('http://localhost:8000/notes', {
       method: 'POST',
       headers:{
@@ -64,9 +65,11 @@ export default function Notes() {
     const data = await req.json()
     if (data.status == 'ok'){
       setFetchedNotes(data.notes)
+      setLoading(false)
       console.log('Note Added Successfully')
     }
     else{
+      setLoading(false)
       console.log('There was an error in adding the note')
     }
   }
@@ -131,7 +134,6 @@ export default function Notes() {
     const data = await req.json()
     if (data.status == 'ok'){
       setFetchedNotes(data.notes.length > 0 ? data.notes : 'Empty')
-      
       // console.log(data.notes)
     }
     else{
@@ -198,7 +200,7 @@ export default function Notes() {
             <Container className='d-flex align-items-center justify-content-center' style={{ minHeight: "95vh" }}>
               <div>
                   <p style={{ fontSize:'35px' }}> No Notes Available </p>
-                  <Link to="/home" className='btn btn-primary'>Go Back</Link>
+                  <Button onClick={() => navigate(-1)}>Logout</Button>
                   {'  '}
                   <Button onClick={() => handleAddModalShow()} className=''>Add Notes</Button>
               </div>

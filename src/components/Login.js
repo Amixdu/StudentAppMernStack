@@ -33,16 +33,26 @@ export default function Login() {
     if (data.user){
         localStorage.setItem('token', data.user)
         setSuccess(true)
-        navigate('/notes')
-        console.log('Login Successful')
+
+        if(data.userStatus) {
+          navigate('/add-info')
+        }
+        else{
+          if(data.accountType === 'admin'){
+            console.log('Go to admin page')
+          }
+          else{
+            navigate('/notes')
+          }
+        }
+        setLoading(false)
+        
     }
     else{
         setErrorMsg('Login Failed')
         setSuccess(false)
-        console.log('Login Failed')
+        setLoading(false)
     }
-
-    setLoading(false)
   }
 
   useEffect(() => {
