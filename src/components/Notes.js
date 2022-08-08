@@ -48,7 +48,8 @@ export default function Notes() {
     setShowUpdateModal(true)
   }
 
-  const handleAdd = async () => {
+  const handleAdd = async (e) => {
+    e.preventDefault()
     setLoading(true)
     const req = await fetch('http://localhost:8000/notes', {
       method: 'POST',
@@ -65,16 +66,21 @@ export default function Notes() {
     const data = await req.json()
     if (data.status == 'ok'){
       setFetchedNotes(data.notes)
+      setReload(!reload)
       setLoading(false)
+      setShowAddModal(false)
       console.log('Note Added Successfully')
     }
     else{
       setLoading(false)
+      setShowAddModal(false)
       console.log('There was an error in adding the note')
     }
   }
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (e) => {
+    e.preventDefault()
+    setLoading(true)
     const req = await fetch('http://localhost:8000/notes/update', {
       method: 'POST',
       headers:{
@@ -92,14 +98,21 @@ export default function Notes() {
 
     if (data.status == 'ok'){
       setFetchedNotes(data.notes)
+      setReload(!reload)
+      setLoading(false)
+      setShowUpdateModal(false)
       console.log('Note Added Successfully')
     }
     else{
+      setLoading(false)
+      setShowUpdateModal(false)
       console.log('There was an error in updating the note')
     }
   }
 
-  const handleDelete = async () => {
+  const handleDelete = async (e) => {
+    e.preventDefault()
+    setLoading(true)
     const req = await fetch('http://localhost:8000/notes/delete', {
       method: 'POST',
       headers:{
@@ -115,11 +128,14 @@ export default function Notes() {
 
     if (data.status == 'ok'){
       setFetchedNotes(data.notes)
-      setShowDeleteModal(false)
       setReload(!reload)
+      setShowDeleteModal(false)
+      setLoading(false)
       console.log('Note Deleted Successfully')
     }
     else{
+      setLoading(false)
+      setShowDeleteModal(false)
       console.log('There was an error in deleting the note')
     }
   }

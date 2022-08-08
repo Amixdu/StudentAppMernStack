@@ -6,8 +6,16 @@ import Loader from './Loader'
 export default function AdminPage() {
     const [showAddUserModal, setShowAddUserModal] = useState()
     const [email, setEmail] = useState()
-    const [error, setError] = useState('')
+    const [msg, setMsg] = useState('')
+    const [error, setError] = useState(false)
     const [loading, setLoading] = useState()
+    const [successMsg, setSuccessMsg] = useState()
+
+    const handleOpenModal = () => {
+        setMsg('')
+        setError(false)
+        setShowAddUserModal(true)
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -22,7 +30,14 @@ export default function AdminPage() {
         })
 
         const data = await response.json()
-        console.log(data)
+        if (data.status === 'success'){
+            setError(false)
+            setMsg('Email with login details has been sent!')
+        }
+        else{
+            setError(true)
+            setMsg('A student with the entered email already exists in the database')
+        }
         setLoading(false)
     }
 
@@ -33,18 +48,18 @@ export default function AdminPage() {
                     <p style={{ fontSize:'35px' }}> No Students In Database </p>
                     <Link to="/login" className='btn btn-primary'>Log Out</Link>
                     {'  '}
-                    <Button onClick={() => setShowAddUserModal(true)}>Add Students</Button>
+                    <Button onClick={() => handleOpenModal()}>Add Students</Button>
                 </div>
             </Container>
 
             <Modal show={showAddUserModal} onHide={() => setShowAddUserModal(false)}>
                 {loading && <Loader backgCol={'light'}/>}
                 <Modal.Header closeButton>
-                    <Modal.Title style={{ textAlign:"center" }}> Clicking create will send an email to the specified adress with login details </Modal.Title>
+                    <Modal.Title style={{ textAlign:"center" }}> Clicking create will send an email to the entered adress with login details </Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
-                    {error && <Alert variant='danger'>{error}</Alert>}
+                    {error ? (msg && <Alert variant='danger'>{msg}</Alert>) : (msg &&<Alert>{msg}</Alert>)}
                     <Form onSubmit={handleSubmit}>
                         <Form.Group id="email" className='mb-3'>
                             <Form.Label>Email</Form.Label>
