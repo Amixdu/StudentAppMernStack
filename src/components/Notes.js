@@ -67,13 +67,13 @@ export default function Notes() {
     if (data.status == 'ok'){
       setFetchedNotes(data.notes)
       setReload(!reload)
-      setLoading(false)
       setShowAddModal(false)
+      setLoading(false)
       console.log('Note Added Successfully')
     }
     else{
-      setLoading(false)
       setShowAddModal(false)
+      setLoading(false)
       console.log('There was an error in adding the note')
     }
   }
@@ -99,13 +99,13 @@ export default function Notes() {
     if (data.status == 'ok'){
       setFetchedNotes(data.notes)
       setReload(!reload)
-      setLoading(false)
       setShowUpdateModal(false)
+      setLoading(false)
       console.log('Note Added Successfully')
     }
     else{
-      setLoading(false)
       setShowUpdateModal(false)
+      setLoading(false)
       console.log('There was an error in updating the note')
     }
   }
@@ -134,8 +134,8 @@ export default function Notes() {
       console.log('Note Deleted Successfully')
     }
     else{
-      setLoading(false)
       setShowDeleteModal(false)
+      setLoading(false)
       console.log('There was an error in deleting the note')
     }
   }
