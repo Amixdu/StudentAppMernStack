@@ -39,7 +39,7 @@ export default function Login() {
         }
         else{
           if(data.accountType === 'admin'){
-            console.log('Go to admin page')
+            navigate('/admin')
           }
           else{
             navigate('/notes')
@@ -49,7 +49,7 @@ export default function Login() {
         
     }
     else{
-        setErrorMsg('Login Failed')
+        setErrorMsg('Email and Password does not match')
         setSuccess(false)
         setLoading(false)
     }
