@@ -106,3 +106,17 @@ export const addUserInfo = async (req, res) => {
         return res.json({ status: 'error' })
     }
 }
+
+export const getUsers = async (req, res) => {
+    const token = req.headers['x-access-token']
+
+    try{
+        const user = jwt.verify(token, process.env.ACCESS_TOKEN)
+        const email = user.email
+        const data = await User.find()
+        return res.json({ status: 'ok', users: data })
+    }
+    catch(error){
+        return res.json({ status: 'error' })
+    }  
+}
