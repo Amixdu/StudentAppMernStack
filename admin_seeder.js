@@ -9,11 +9,11 @@ mongoose.connect(CONNECTION_URL)
     .catch((err) => console.log(err))
 
 const admin = {
-    firstName: 'adminFirstName',
-    lastName: 'adminLastName',
+    firstName: 'undefined',
+    lastName: 'undefined',
     email: 'admin@gmail.com',
     dateOfBirth: Date(),
-    mobile: '23851223956',
+    mobile: 0,
     status: true,
     password: 'adminpassword',
     accountType: 'admin'
