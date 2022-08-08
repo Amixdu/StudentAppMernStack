@@ -198,7 +198,7 @@ export default function AdminPage() {
                             </tr>
 
                             <tr>
-                                <td><strong>Status (First time login): </strong></td>
+                                <td><strong>Status (first time login): </strong></td>
                                 <td>{clickedStatus}</td>
                             </tr>
 
@@ -208,11 +208,8 @@ export default function AdminPage() {
                             </tr>
                         </tbody>
                     </Table>
-
-                    
                 </Modal.Body>
             </Modal>
         </div>
-        
     )
 }
