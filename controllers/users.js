@@ -126,6 +126,24 @@ export const getUsers = async (req, res) => {
     }  
 }
 
+export const getFilteredUsers = async (req, res) => {
+    const PAGE_SIZE = 5
+    const page = parseInt(req.query.page || "0")
+    const token = req.headers['x-access-token']
+    let totalUsers = 0
+    const filterVariable = req.body.filterVariable
+    const filterVariableData = req.body.filterVariableData
+    const search = filterVariable === 'Email' ? { email: filterVariableData } : (filterVariable === 'ID' ? { _id: filterVariableData } : { firstName: filterVariableData })
+    try{
+        totalUsers = await User.countDocuments(search)   
+        const totalPages = Math.ceil((totalUsers / PAGE_SIZE))
+        const data = await User.find(search).limit(PAGE_SIZE).skip(PAGE_SIZE * page)
+        return res.json({ status: 'ok', users: data, totalPages:totalPages })
+    }catch{
+        return res.json({ status: 'error' })
+    }
+}
+
 export const userAuthenticate = async (req, res) => {
     const token = req.headers['x-access-token']
 
