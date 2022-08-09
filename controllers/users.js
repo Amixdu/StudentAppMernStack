@@ -109,13 +109,17 @@ export const addUserInfo = async (req, res) => {
 }
 
 export const getUsers = async (req, res) => {
+    const PAGE_SIZE = 5
+    const page = parseInt(req.query.page || "0")
     const token = req.headers['x-access-token']
-
+    const totalUsers = await User.countDocuments({})
+    const totalPages = Math.ceil((totalUsers / PAGE_SIZE))
     try{
-        const user = jwt.verify(token, process.env.ACCESS_TOKEN)
-        const email = user.email
-        const data = await User.find()
-        return res.json({ status: 'ok', users: data })
+        // const user = jwt.verify(token, process.env.ACCESS_TOKEN)
+        // const email = user.email
+        const data = await User.find().limit(PAGE_SIZE).skip(PAGE_SIZE * page)
+
+        return res.json({ status: 'ok', users: data, totalPages:totalPages })
     }
     catch(error){
         return res.json({ status: 'error' })

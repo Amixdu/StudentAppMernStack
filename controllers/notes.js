@@ -5,14 +5,17 @@ import User from '../models/user.model.js'
 import Note from '../models/note.model.js'
 
 export const getNotes = async (req, res) => {
+    const PAGE_SIZE = 3
+    const page = parseInt(req.query.page || "0")
     const token = req.headers['x-access-token']
-
     try{
         const user = jwt.verify(token, process.env.ACCESS_TOKEN)
         const email = user.email
-        const data = await Note.find({ email: email })
+        const totalNotes = await Note.countDocuments({email: email })
+        const totalPages = Math.ceil((totalNotes / PAGE_SIZE))
+        const data = await Note.find({ email: email }).limit(PAGE_SIZE).skip(PAGE_SIZE * page)
         // console.log(data)
-        return res.json({ status: 'ok', notes: data })
+        return res.json({ status: 'ok', notes: data, totalPages:totalPages })
     }
     catch(error){
         return res.json({ status: 'error' })
