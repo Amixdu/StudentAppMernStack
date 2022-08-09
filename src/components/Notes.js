@@ -206,7 +206,7 @@ export default function Notes() {
                   })
                 }
               </div>
-              <PaginationComponent totalPages={totalPages} updatePageNumber={(e) => setPageNumber(e)} />
+              <PaginationComponent totalPages={totalPages} updatePageNumber={(e) => setPageNumber(e)} pageNumber={pageNumber} />
             </>
           ) : 
           (
