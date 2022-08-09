@@ -64,7 +64,7 @@ export default function Notes() {
     })
 
     const data = await req.json()
-    if (data.status == 'ok'){
+    if (data.status === 'ok'){
       setFetchedNotes(data.notes)
       setReload(!reload)
       setShowAddModal(false)
@@ -96,7 +96,7 @@ export default function Notes() {
 
     const data = await req.json()
 
-    if (data.status == 'ok'){
+    if (data.status === 'ok'){
       setFetchedNotes(data.notes)
       setReload(!reload)
       setShowUpdateModal(false)
@@ -126,7 +126,7 @@ export default function Notes() {
 
     const data = await req.json()
 
-    if (data.status == 'ok'){
+    if (data.status === 'ok'){
       setFetchedNotes(data.notes)
       setReload(!reload)
       setShowDeleteModal(false)
@@ -148,25 +148,16 @@ export default function Notes() {
     })
 
     const data = await req.json()
-    if (data.status == 'ok'){
+    if (data.status === 'ok'){
       setFetchedNotes(data.notes.length > 0 ? data.notes : 'Empty')
-      // console.log(data.notes)
     }
     else{
-      console.log('BYE')
-      navigate('/')
+      window.alert('There was an issue in retrieving the data')
     }
   }
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (!token){
-      navigate('/')
-    }
-    else{
-      console.log("sdbghabsdhgbsdhgh")
-      getNotes()
-    }
+    getNotes()
   }, [reload])
 
   return (

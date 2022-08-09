@@ -58,7 +58,7 @@ export default function AdminPage() {
         const data = await response.json()
         if (data.status === 'success'){
             setError(false)
-            setMsg('Email with login details has been sent!')
+            setMsg('Login instructions will be sent to the entered email!')
         }
         else{
             setError(true)
@@ -79,8 +79,8 @@ export default function AdminPage() {
           setFetchedUsers(data.users.length > 0 ? data.users : 'Empty')
         }
         else{
-          console.log('BYE')
-          navigate('/')
+            setLoading(false)
+            window.alert('There was an issue in retrieving the data')
         }
 
     }
