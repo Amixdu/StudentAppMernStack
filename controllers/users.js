@@ -28,7 +28,8 @@ const sendEmail = (email, password, link) => {
         from: 'serveraccinternsip@gmail.com',
         to: email,
         subject: 'Login Details',
-        text: 'Click ' + link + ' and enter the password: ' + password
+        text: 'Dear User,\nClick ' + link + ' and enter the password: ' + password + '\n\nRegards,\nAmindu'
+        
     };
 
     transporter.sendMail(mailOptions, function(error, info){
@@ -55,7 +56,7 @@ export const createUser = async (req, res) => {
             password: tempPw,
             accountType: 'student'
         })
-        sendEmail(req.body.email, tempPw, 'http://localhost:3000/login')
+        sendEmail(req.body.email, tempPw, 'http://localhost:3000/')
         res.json({ status: 'success' })
     } 
     catch(e){
@@ -115,6 +116,20 @@ export const getUsers = async (req, res) => {
         const email = user.email
         const data = await User.find()
         return res.json({ status: 'ok', users: data })
+    }
+    catch(error){
+        return res.json({ status: 'error' })
+    }  
+}
+
+export const userAuthenticate = async (req, res) => {
+    const token = req.headers['x-access-token']
+
+    try{
+        const user = jwt.verify(token, process.env.ACCESS_TOKEN)
+        const email = user.email
+        const data = await User.findOne({ email: email })
+        return res.json({ status: 'ok', accountType: data.accountType, userStatus: data.status })
     }
     catch(error){
         return res.json({ status: 'error' })
