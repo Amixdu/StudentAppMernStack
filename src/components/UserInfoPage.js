@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { Alert } from 'react-bootstrap'
-import { Form, Button, Card, Container } from 'react-bootstrap'
+import { Form, Button, Card, Container, Modal } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import Loader from './Loader'
 
@@ -11,12 +11,24 @@ export default function UserInfoPage() {
     const [mobile, setMobile] = useState()
     const [resetPassword, setResetPassword] = useState()
     const [confirmPassword, setConfirmPassword] = useState()
+    const [showModal, setShowModal] = useState(false)
 
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
-    const [success, setSuccess] = useState(false)
+    const [finished, setFinished] = useState(false)
+    const [msg, setMsg] = useState()
+    const [success, setSuccess] = useState()
 
     const navigate = useNavigate()
+
+    const handleModalClose = () => {
+        if (success){
+            navigate('/')
+        }
+        else{
+            setShowModal(false)
+        }
+    }
 
     const handleSubmit = async(e) => {
         e.preventDefault()
@@ -39,13 +51,22 @@ export default function UserInfoPage() {
 
             const data = await req.json()
             if (data.status == 'ok'){
-                window.alert('Data successfully updated!')
+                setFinished(true)
+                setMsg('Data successfully updated! Closing this will redirect you to the login page')
                 setLoading(false)
-                navigate('/')
+                setSuccess(true)
+                setShowModal(true)
+
+                // window.alert('Data successfully updated! Click ok and login again.')
+                // navigate('/')
             }
             else{
+                setFinished(true)
+                setMsg('There was an error in updating the data. Please try again')
                 setLoading(false)
-                console.log('There was an error in adding the note')
+                setSuccess(false)
+                setShowModal(true)
+                // console.log('There was an error in adding the note')
             }
         }
         else{
@@ -63,7 +84,6 @@ export default function UserInfoPage() {
                         <Card.Body>
                         <h2 className="text-center mb-4">Add Information</h2>
                         {error && <Alert variant='danger'>{error}</Alert>}
-                        {success && <Alert> Details Added Successfully </Alert>}
 
                         <Form onSubmit={handleSubmit}>
 
@@ -104,6 +124,17 @@ export default function UserInfoPage() {
                         </Form>
                         </Card.Body>
                     </Card>
+
+                    <Modal show={showModal} onHide={handleModalClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title> {msg} </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Button className='w-100' onClick={handleModalClose}>
+                                Confirm
+                            </Button>
+                        </Modal.Body>
+                    </Modal>
 
                 </div>
             </Container>
