@@ -5,12 +5,15 @@ import { Modal, Button, Form, Alert, Container, Card } from 'react-bootstrap'
 import Loader from './Loader'
 import LoaderMiddle from './LoaderMiddle';
 import "./Notes.css"
+import PaginationComponent from './PaginationComponent';
 
 export default function Notes() {
   const titleRef = useRef()
   const descriptionRef = useRef()
 
   const [fetchedNotes, setFetchedNotes] = useState()
+  const [pageNumber, setPageNumber] = useState(0)
+  const [totalPages, setTotalPages] = useState()
   const [newNoteTitle, setNewNoteTitle] = useState()
   const [newNoteDescription, setNewNoteDescription] = useState()
   const [title, setTitle] = useState()
@@ -141,7 +144,7 @@ export default function Notes() {
   }
   
   const getNotes = async () => {
-    const req = await fetch('http://localhost:8000/notes', {
+    const req = await fetch(`http://localhost:8000/notes?page=${pageNumber}`, {
       headers:{
         'x-access-token': localStorage.getItem('token')
       }
@@ -149,6 +152,8 @@ export default function Notes() {
 
     const data = await req.json()
     if (data.status === 'ok'){
+      console.log(data)
+      setTotalPages(data.totalPages)
       setFetchedNotes(data.notes.length > 0 ? data.notes : 'Empty')
     }
     else{
@@ -158,7 +163,7 @@ export default function Notes() {
 
   useEffect(() => {
     getNotes()
-  }, [reload])
+  }, [reload, pageNumber])
 
   return (
     <>
@@ -176,7 +181,7 @@ export default function Notes() {
                 {/* </div> */}
               </div> 
 
-              <div className='mt-4'>
+              <div className='mt-4 mb-4'>
                 {
                   Object.entries(fetchedNotes).map((note) => {
                     const [key, value] = note
@@ -201,6 +206,7 @@ export default function Notes() {
                   })
                 }
               </div>
+              <PaginationComponent totalPages={totalPages} updatePageNumber={(e) => setPageNumber(e)} />
             </>
           ) : 
           (

@@ -2,20 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { Pagination } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
 
-
-
-
-export default function PaginationComponent() {
+export default function PaginationComponent({ totalPages, updatePageNumber, pageNumber }) {
     const navigate = useNavigate()
     const [data, setData] = useState()
 
     const fillItems = () => {
-        let active = 1;
         let items = [];
-        for (let number = 1; number <= 5; number++) {
+        for (let number = 0; number < totalPages; number++) {
             items.push(
-                <Pagination.Item key={number} active={number === active} onClick={()=>navigate(`/posts?page=${number}`)}>
-                {number}
+                <Pagination.Item key={number} active={number === pageNumber} onClick={()=>updatePageNumber(number)}>
+                {number + 1}
                 </Pagination.Item>,
             );
         }
@@ -24,7 +20,7 @@ export default function PaginationComponent() {
 
     useEffect(() => {
         fillItems()
-    }, [])
+    }, [pageNumber])
 
     return (
         <div className='justify-content-center d-flex'>

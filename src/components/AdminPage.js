@@ -14,6 +14,8 @@ export default function AdminPage() {
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState()
     const [fetchedUsers, setFetchedUsers] = useState()
+    const [pageNumber, setPageNumber] = useState(0)
+    const [totalPages, setTotalPages] = useState()
 
     const [clickedId, setClickedID] = useState()
     const [clickedFirstName, setClickedFirstName] = useState()
@@ -70,7 +72,7 @@ export default function AdminPage() {
 
     const getUsers = async () => {
         setLoading(true)
-        const req = await fetch('http://localhost:8000/users', {
+        const req = await fetch(`http://localhost:8000/users?page=${pageNumber}`, {
           headers:{
             'x-access-token': localStorage.getItem('token')
           }
@@ -78,6 +80,7 @@ export default function AdminPage() {
     
         const data = await req.json()
         if (data.status == 'ok'){
+            setTotalPages(data.totalPages)
             setFetchedUsers(data.users.length > 0 ? data.users : 'Empty')
         }
         else{
@@ -88,7 +91,7 @@ export default function AdminPage() {
 
     useEffect(() => {
         getUsers()
-      }, [])
+      }, [pageNumber])
 
     return (
         <div >
@@ -121,7 +124,7 @@ export default function AdminPage() {
                                 </tbody>
                             </Table>
 
-                            <PaginationComponent />
+                            <PaginationComponent totalPages={totalPages} updatePageNumber={(e) => setPageNumber(e)} pageNumber={pageNumber} />
 
                         </>
                     ) :
