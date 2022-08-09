@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import Loader from './Loader'
 import LoaderMiddle from './LoaderMiddle'
 import "./Notes.css"
+import PaginationComponent from './PaginationComponent'
 
 export default function AdminPage() {
     const [showAddUserModal, setShowAddUserModal] = useState()
@@ -68,6 +69,7 @@ export default function AdminPage() {
     }
 
     const getUsers = async () => {
+        setLoading(true)
         const req = await fetch('http://localhost:8000/users', {
           headers:{
             'x-access-token': localStorage.getItem('token')
@@ -76,13 +78,12 @@ export default function AdminPage() {
     
         const data = await req.json()
         if (data.status == 'ok'){
-          setFetchedUsers(data.users.length > 0 ? data.users : 'Empty')
+            setFetchedUsers(data.users.length > 0 ? data.users : 'Empty')
         }
         else{
-            setLoading(false)
             window.alert('There was an issue in retrieving the data')
         }
-
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -119,6 +120,9 @@ export default function AdminPage() {
                                         })}
                                 </tbody>
                             </Table>
+
+                            <PaginationComponent />
+
                         </>
                     ) :
                     (
