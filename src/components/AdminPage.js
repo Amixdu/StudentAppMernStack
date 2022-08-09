@@ -80,7 +80,7 @@ export default function AdminPage() {
         }
         else{
           console.log('BYE')
-          navigate('/login')
+          navigate('/')
         }
 
     }
@@ -98,7 +98,7 @@ export default function AdminPage() {
                         <>
                             <div className='box'>
                                 <h2 style={{ fontSize:'50px', fontWeight:"bold", fontFamily:"Georgia, serif" }}>Users</h2>
-                                <Link to="/login" className='btn btn-primary'>Log Out</Link>
+                                <Link to="/" className='btn btn-primary'>Log Out</Link>
                                 {'  '}
                                 <Button onClick={() => handleOpenModal()} className=''>Add Students</Button>
                             </div> 
@@ -125,7 +125,7 @@ export default function AdminPage() {
                         <Container className='d-flex align-items-center justify-content-center' style={{ minHeight: "95vh" }}>
                             <div>
                                 <p style={{ fontSize:'35px' }}> No Students In Database </p>
-                                <Link to="/login" className='btn btn-primary'>Log Out</Link>
+                                <Link to="/" className='btn btn-primary'>Log Out</Link>
                                 {'  '}
                                 <Button onClick={() => handleOpenModal()}>Add Students</Button>
                             </div>

@@ -154,14 +154,14 @@ export default function Notes() {
     }
     else{
       console.log('BYE')
-      navigate('/login')
+      navigate('/')
     }
   }
 
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (!token){
-      navigate('/login')
+      navigate('/')
     }
     else{
       console.log("sdbghabsdhgbsdhgh")
@@ -179,7 +179,7 @@ export default function Notes() {
               <div className='box'>
                 <h2 style={{ fontSize:'50px', fontWeight:"bold", fontFamily:"Georgia, serif" }}>Notes</h2>
                 {/* <div className='buttonRight'> */}
-                    <Link to="/login" className='btn btn-primary'>Log Out</Link>
+                    <Link to="/" className='btn btn-primary'>Log Out</Link>
                     {'  '}
                     <Button onClick={() => handleAddModalShow()} className=''>Add Notes</Button>
                 {/* </div> */}

@@ -41,7 +41,7 @@ export default function UserInfoPage() {
             if (data.status == 'ok'){
                 window.alert('Data successfully updated!')
                 setLoading(false)
-                navigate('/login')
+                navigate('/')
             }
             else{
                 setLoading(false)
