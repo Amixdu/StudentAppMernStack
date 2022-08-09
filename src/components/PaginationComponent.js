@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Pagination } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom';
 
 export default function PaginationComponent({ totalPages, updatePageNumber, pageNumber }) {
-    const navigate = useNavigate()
     const [data, setData] = useState()
 
     const fillItems = () => {

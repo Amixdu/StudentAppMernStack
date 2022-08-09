@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Modal, Form, Alert, Container, Card, Button, Table } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import Loader from './Loader'
 import LoaderMiddle from './LoaderMiddle'
-import "./Notes.css"
+import "./AdminPage.css"
 import PaginationComponent from './PaginationComponent'
 
 export default function AdminPage() {
@@ -16,6 +16,14 @@ export default function AdminPage() {
     const [fetchedUsers, setFetchedUsers] = useState()
     const [pageNumber, setPageNumber] = useState(0)
     const [totalPages, setTotalPages] = useState()
+    const [filterVariable, setFilterVariable] = useState('Email')
+    const [filterVariableData, setFilterVariableData] = useState()
+    const [fetchedFilteredUsers, setFetchedFilteredUsers] = useState()
+    const [filteredPageNumber, setFilteredPageNumber] = useState(0)
+    const [filteredPages, setFilteredPages] = useState()
+    const [filtered, setFiltered] = useState(false)
+    const filterDataRef = useRef()
+
 
     const [clickedId, setClickedID] = useState()
     const [clickedFirstName, setClickedFirstName] = useState()
@@ -25,8 +33,6 @@ export default function AdminPage() {
     const [clickedMobile, setClickedMobile] = useState()
     const [clickedStatus, setClickedStatus] = useState()
     const [clickedAccountType, setClickedAccountType] = useState()
-
-    const navigate = useNavigate()
 
     const handleDetailsModalOpen = (id, fName, lName, email, dob, mobile, status, aType) => {
         setClickedID(id)
@@ -70,6 +76,38 @@ export default function AdminPage() {
         setLoading(false)
     }
 
+
+
+    const handleFilter = async () => {
+        setLoading(true)
+        if (filterVariableData){
+            const req = await fetch(`http://localhost:8000/users/filtered?page=${filteredPageNumber}`, {
+            method: 'POST',
+            headers:{
+                'x-access-token': localStorage.getItem('token'),
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify({
+                filterVariable,
+                filterVariableData
+            })
+            })
+            const data = await req.json()
+            if (data.status == 'ok'){
+                setFilteredPages(data.totalPages)
+                setFetchedFilteredUsers(data.users)
+                setFiltered(true)
+                setFilterVariableData('')
+            }
+            else{
+                setFiltered(false)
+            }
+        }
+        else{
+            setFiltered(false)
+        }
+    }
+
     const getUsers = async () => {
         setLoading(true)
         const req = await fetch(`http://localhost:8000/users?page=${pageNumber}`, {
@@ -81,7 +119,7 @@ export default function AdminPage() {
         const data = await req.json()
         if (data.status == 'ok'){
             setTotalPages(data.totalPages)
-            setFetchedUsers(data.users.length > 0 ? data.users : 'Empty')
+            setFetchedUsers(data.users)
         }
         else{
             window.alert('There was an issue in retrieving the data')
@@ -90,54 +128,101 @@ export default function AdminPage() {
     }
 
     useEffect(() => {
+        setLoading(false)
+    }, [filtered])
+
+    useEffect(() => {
         getUsers()
-      }, [pageNumber])
+    }, [pageNumber])
+
+    useEffect(() => {
+        if (filtered){
+            handleFilter()
+        }
+    }, [filteredPageNumber])
+
 
     return (
         <div >
             {
-                fetchedUsers ?
+                (fetchedUsers && !loading) ?
                 (
-                    fetchedUsers !== 'Empty' ? (
-                        <>
-                            <div className='box'>
-                                <h2 style={{ fontSize:'50px', fontWeight:"bold", fontFamily:"Georgia, serif" }}>Users</h2>
-                                <Link to="/" className='btn btn-primary'>Log Out</Link>
-                                {'  '}
-                                <Button onClick={() => handleOpenModal()} className=''>Add Students</Button>
-                            </div> 
+                   
+                    <>
+                        <div className='box'>
+                            <h2 style={{ fontSize:'50px', fontWeight:"bold", fontFamily:"Georgia, serif" }}>Users</h2>
+                            <Link to="/" className='btn btn-primary'>Log Out</Link>
+                            {'  '}
+                            <Button onClick={() => handleOpenModal()} className=''>Add Students</Button>
+                        </div> 
 
-                            <br />
-
-                            <Table striped bordered hover>
-                                <tbody>
-                                    {Object.entries(fetchedUsers).map((user) => {
-                                        const [key, value] = user
-                                        const formattedDate = (String(value.dateOfBirth)).slice(0, 10)
-                                        return (
-                                            <tr>
-                                                <td>{value.email}</td>
-                                                <td><Button onClick={() => handleDetailsModalOpen(value._id, value.firstName, value.lastName, value.email, formattedDate, value.mobile, String(value.status), value.accountType)}>Details</Button></td>
-                                            </tr>
-                                        )
-                                        })}
-                                </tbody>
-                            </Table>
-
-                            <PaginationComponent totalPages={totalPages} updatePageNumber={(e) => setPageNumber(e)} pageNumber={pageNumber} />
-
-                        </>
-                    ) :
-                    (
-                        <Container className='d-flex align-items-center justify-content-center' style={{ minHeight: "95vh" }}>
-                            <div>
-                                <p style={{ fontSize:'35px' }}> No Students In Database </p>
-                                <Link to="/" className='btn btn-primary'>Log Out</Link>
-                                {'  '}
-                                <Button onClick={() => handleOpenModal()}>Add Students</Button>
+                        <br />
+                        
+                        <div className='main-container'>
+                            <div className='left-container'>
+                                {!filtered ? 
+                                    <>
+                                        <Table striped bordered hover>
+                                            <tbody>
+                                                {Object.entries(fetchedUsers).map((user) => {
+                                                    const [key, value] = user
+                                                    const formattedDate = (String(value.dateOfBirth)).slice(0, 10)
+                                                    return (
+                                                        <tr>
+                                                            <td>{value.email}</td>
+                                                            <td><Button onClick={() => handleDetailsModalOpen(value._id, value.firstName, value.lastName, value.email, formattedDate, value.mobile, String(value.status), value.accountType)}>Details</Button></td>
+                                                        </tr>
+                                                    )
+                                                    })}
+                                            </tbody>
+                                        </Table>
+                                        <PaginationComponent totalPages={totalPages} updatePageNumber={(e) => setPageNumber(e)} pageNumber={pageNumber} />
+                                    </>
+                                : 
+                                    fetchedFilteredUsers.length > 0 ?
+                                    <>
+                                        <Table striped bordered hover>
+                                            <tbody>
+                                                {Object.entries(fetchedFilteredUsers).map((user) => {
+                                                    const [key, value] = user
+                                                    const formattedDate = (String(value.dateOfBirth)).slice(0, 10)
+                                                    return (
+                                                        <tr>
+                                                            <td>{value.email}</td>
+                                                            <td><Button onClick={() => handleDetailsModalOpen(value._id, value.firstName, value.lastName, value.email, formattedDate, value.mobile, String(value.status), value.accountType)}>Details</Button></td>
+                                                        </tr>
+                                                    )
+                                                    })}
+                                            </tbody>
+                                        </Table>
+                                        {/* {console.log(filteredPages)} */}
+                                        <PaginationComponent totalPages={filteredPages} updatePageNumber={(e) => setFilteredPageNumber(e)} pageNumber={filteredPageNumber} />
+                                    </> : <p style={{ fontSize:'20px' }}>No Matches</p>
+                                    
+                                }
                             </div>
-                        </Container>
-                    )
+
+                            <div className='right-container'>
+                                <Form onSubmit={handleFilter}>
+                                    <Form.Select onChange={(e) => {setFilterVariable(e.target.value)}} aria-label="Default select example" className='mb-3' value={filterVariable} >
+                                        <option value="Email">Email</option>
+                                        <option value="ID">ID</option>
+                                        <option value="First Name">First Name</option>
+                                    </Form.Select>
+                                    <Form.Group id="email" className='mb-3'>
+                                        <Form.Control type={filterVariable === 'Email' ? "email" : "text"} required onChange={(e) => {setFilterVariableData(e.target.value)}} placeholder={'Enter ' + filterVariable} ></Form.Control>
+                                    </Form.Group>
+
+                                    
+                                </Form>
+                                <Button disabled={loading} onClick={handleFilter} >
+                                    Filter
+                                </Button>
+                            </div>
+
+                        </div>
+                    </>
+                    
                     
                 ) : <LoaderMiddle col='primary'/>
                 
@@ -154,7 +239,7 @@ export default function AdminPage() {
                     <Form onSubmit={handleSubmit}>
                         <Form.Group id="email" className='mb-3'>
                             <Form.Label>Email</Form.Label>
-                            <Form.Control type="email" required onChange={(e) => {setEmail(e.target.value)}}></Form.Control>
+                            <Form.Control type="email" required onChange={(e) => {setEmail(e.target.value)}} ref={filterDataRef}></Form.Control>
                         </Form.Group>
 
                         <Button disabled={loading} className='w-100' type="submit">
