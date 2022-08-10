@@ -1,18 +1,14 @@
-import dotenv from 'dotenv'
-dotenv.config()
 import express from 'express'
 import cors from 'cors'
 import mongoose from 'mongoose'
-
-// const jwt = require('jsonwebtoken')
-
-import jwt from 'jsonwebtoken'
-import User from './models/user.model.js'
-import Note from './models/note.model.js'
 import noteRoutes from './routes/notes.js'
 import userRoutes from './routes/users.js'
+import dotenv from 'dotenv'
+dotenv.config()
 
 const app = express()
+const CONNECTION_URL = process.env.MONGO_STRING
+const PORT = process.env.PORT || 8000
 
 app.use(cors())
 app.use(express.json())
@@ -24,44 +20,9 @@ app.get('/', (req, res) => {
     return res.send('Server Is Running!')
 })
 
-const CONNECTION_URL = process.env.MONGO_STRING
-const PORT = process.env.PORT || 8000
-
 mongoose.connect(CONNECTION_URL)
     .then(() => app.listen(PORT, () => {
         console.log("Successfully connected to database!")
         console.log("Started on: http://localhost:8000/")
     }))
     .catch((err) => console.log(err))
-
-
-// app.post('/api/add-notes', async (req, res) => {
-//     const token = req.headers['x-access-token']
-
-//     try{
-//         const decodedData = jwt.verify(token, process.env.ACCESS_TOKEN)
-//         const email = decodedData.email
-//         await User.updateOne({ email: email }, { $set: { notes:req.body.quote }})
-//         return res.json({ status: 'ok' })
-//     }
-//     catch(error){
-//         return res.json({ status: 'error' })
-//     }  
-// })
-
-
-// app.post('/api/notes', async (req, res) => {
-//     const token = req.headers['x-access-token']
-
-//     try{
-//         const decodedData = jwt.verify(token, process.env.ACCESS_TOKEN)
-//         const email = decodedData.email
-//         await User.updateOne({ email: email }, { $set: { notes:req.body.quote }})
-//         return res.json({ status: 'ok' })
-//     }
-//     catch(error){
-//         return res.json({ status: 'error' })
-//     }  
-// })
-
-
