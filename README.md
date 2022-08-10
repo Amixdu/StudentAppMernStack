@@ -30,7 +30,7 @@ Go to the directory and run the command `docker-compose up` to get everything st
 Access the app at http://localhost:3000/
 
 ```diff
-- IMPORTANT:  Please ensure ports 3000 and 8000 are free
+- ### IMPORTANT:  Please ensure ports 3000 and 8000 are free
 ```
 
 <br><br>
