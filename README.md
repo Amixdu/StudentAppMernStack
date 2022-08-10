@@ -1,11 +1,11 @@
 # Startup Instructions
 
 Name: Amindu Kumarasinghe <br>
-Email: amixxdu@gmail.com <br> <br>
+Email: amixxdu@gmail.com <br>
 
 Prerequisites:<br>
 NodeJS: https://nodejs.org/en/download/<br>
-Docker: https://docs.docker.com/get-docker/<br>
+Docker: https://docs.docker.com/get-docker/<br> <br>
 
 
 ## Project Information
@@ -13,7 +13,7 @@ Docker: https://docs.docker.com/get-docker/<br>
 Frontend - ReactJS <br>
 Backend - NodeJS + Express <br>
 Database - MongoDB <br>
-Authentication - JWTs <br>
+Authentication - JWTs <br> <br>
 
 
 ## Project Setup
@@ -23,7 +23,7 @@ Clone the repo using: <br> `git clone https://github.com/Amixdu/StudentAppMernSt
 <br><br>
 
 ### Step 2
-Go to the directory and run the command `docker-compose up` to get everything started up <br><br>
+Go to the directory and run the command `docker-compose up` to get everything started up (run `docker-compose build --no-cache` if any issues arise) <br><br>
 
 
 ### Step 3
