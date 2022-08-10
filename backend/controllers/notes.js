@@ -10,7 +10,7 @@ export const getNotes = async (req, res) => {
     try{
         const user = jwt.verify(token, process.env.ACCESS_TOKEN)
         const email = user.email
-        const totalNotes = await Note.countDocuments({email: email })
+        const totalNotes = await Note.countDocuments({ email: email })
         const totalPages = Math.ceil((totalNotes / PAGE_SIZE))
         const data = await Note.find({ email: email }).limit(PAGE_SIZE).skip(PAGE_SIZE * page)
         return res.json({ status: 'ok', notes: data, totalPages:totalPages })
@@ -31,7 +31,7 @@ export const addNotes = async (req, res) => {
             title: req.body.title, 
             description: req.body.description 
         })
-        const totalNotes = await Note.countDocuments({email: email })
+        const totalNotes = await Note.countDocuments({ email: email })
         const totalPages = Math.ceil((totalNotes / PAGE_SIZE))
         const data = await Note.find({ email: email }).limit(PAGE_SIZE).skip(PAGE_SIZE * page)
         return res.json({ status: 'ok', notes: data, totalPages:totalPages })
@@ -57,12 +57,15 @@ export const updateNotes = async (req, res) => {
 }
 
 export const deleteNotes = async (req, res) => {
+    const page = parseInt(req.body.pageNumber || "0")
     const token = req.headers['x-access-token']
     try{
         const user = jwt.verify(token, process.env.ACCESS_TOKEN)
         const email = user.email
         await Note.deleteOne({ _id: req.body.id })
-        return res.json({ status: 'ok' })
+        const totalNotes = await Note.countDocuments({ email: email })
+        const totalPages = Math.ceil((totalNotes / PAGE_SIZE))
+        return res.json({ status: 'ok', totalPages:totalPages })
     }
     catch(error){
         console.log(error)

@@ -118,13 +118,15 @@ export default function Notes() {
     e.preventDefault()
     setLoading(true)
 
+    console.log(fetchedNotes.length)
+    
     if (pageNumber > 0){
       if (fetchedNotes.length === 1){
-        setPageNumber(pageNumber - 1)
         setTotalPages(totalPages - 1)
+        setPageNumber(pageNumber - 1)
       }
     }
-
+    
     const req = await fetch('http://localhost:8000/notes/delete', {
       method: 'POST',
       headers:{
@@ -132,15 +134,17 @@ export default function Notes() {
         'x-access-token': localStorage.getItem('token')
       },
       body: JSON.stringify({
-        id: clickedNoteId
+        id: clickedNoteId,
+        pageNumber: pageNumber
       })
     })
 
     const data = await req.json()
 
     if (data.status === 'ok'){
-      setShowDeleteModal(false)
+      setTotalPages(data.totalPages)
       setError('')
+      setShowDeleteModal(false)
       setReload(!reload)
       setLoading(false)
     }
@@ -160,7 +164,6 @@ export default function Notes() {
       })
   
       const data = await req.json()
-      console.log(pageNumber)
       if (data.status === 'ok'){
         setFetchedNotes(data.notes.length > 0 ? data.notes : 'Empty')
         setTotalPages(data.totalPages)
