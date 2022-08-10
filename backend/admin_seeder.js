@@ -1,9 +1,11 @@
 import mongoose from "mongoose";
 import User from './models/user.model.js';
+import dotenv from 'dotenv'
+dotenv.config()
 
 const EMAIL = 'admin@gmail.com'
 
-const CONNECTION_URL = 'mongodb+srv://amin:qwerty1029384756@cluster0.qnehnrn.mongodb.net/?retryWrites=true&w=majority'
+const CONNECTION_URL = process.env.MONGO_STRING
 mongoose.connect(CONNECTION_URL)
     .then(() => {
         console.log("Connected to Mongo!")

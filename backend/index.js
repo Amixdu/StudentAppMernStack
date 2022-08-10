@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
     return res.send('Server Is Running!')
 })
 
-const CONNECTION_URL = 'mongodb+srv://amin:qwerty1029384756@cluster0.qnehnrn.mongodb.net/?retryWrites=true&w=majority'
+const CONNECTION_URL = process.env.MONGO_STRING
 const PORT = process.env.PORT || 8000
 
 mongoose.connect(CONNECTION_URL)
