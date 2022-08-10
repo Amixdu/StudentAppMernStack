@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import CreateUser from './components/CreateUser';
 import Login from './components/Login';
 import Notes from './components/Notes'
 import UserInfoPage from "./components/UserInfoPage";
@@ -13,7 +12,6 @@ function App() {
     <Router>
       <Routes>
         <Route exact path="/" element={<Login/>}/>
-        <Route exact path="/create-user" element={<PrivateAdminRoute> <CreateUser/> </PrivateAdminRoute>}/>
         <Route exact path="/notes" element={<PrivateRoute> <Notes/> </PrivateRoute>}/>
         <Route exact path="/add-info" element={<PrivateUserInfoRoute> <UserInfoPage/> </PrivateUserInfoRoute>}/>
         <Route exact path="/admin" element={<PrivateAdminRoute> <AdminPage/> </PrivateAdminRoute>}/>
