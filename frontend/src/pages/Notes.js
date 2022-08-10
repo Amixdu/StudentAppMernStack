@@ -118,8 +118,6 @@ export default function Notes() {
     e.preventDefault()
     setLoading(true)
 
-    console.log(fetchedNotes.length)
-    
     if (pageNumber > 0){
       if (fetchedNotes.length === 1){
         setTotalPages(totalPages - 1)
@@ -225,7 +223,6 @@ export default function Notes() {
                   <p style={{ fontSize:'35px' }}> No Notes Available </p>
                   <Button onClick={handleLogout}>Log Out</Button>
                   {'  '}
-                  {console.log(fetchedNotes)}
                   <Button onClick={() => handleAddModalShow()} className=''>Add Notes</Button>
               </div>
             </Container>
