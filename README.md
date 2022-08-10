@@ -34,7 +34,7 @@ Access the app at http://localhost:3000/
 - IMPORTANT:  Please ensure ports 3000 and 8000 are free
 ```
 
-<br><br>
+<br>
 
 ### Note
 #### Running without docker:
