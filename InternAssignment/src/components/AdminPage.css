@@ -1,0 +1,35 @@
+.buttonRight{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 10px;
+}
+.box{
+    margin: auto;
+    padding-top: 5px;
+    width: 97%;
+    position: relative;
+}
+.user-box{
+    padding-top: 5px;
+}
+
+.main-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+  
+.left-container {
+    flex: 0 0 80%;
+    padding: 10px;
+}
+
+.right-container {
+    flex: 0 0 20%;
+    padding: 10px;
+}
+  
+  /* * {
+    margin: 0;
+    box-sizing: border-box;
+  } */
