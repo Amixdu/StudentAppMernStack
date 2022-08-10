@@ -29,8 +29,7 @@ const sendEmail = (email, password, link) => {
         from: 'serveraccinternsip@gmail.com',
         to: email,
         subject: 'Login Details',
-        text: 'Dear User,\nClick ' + link + ' and enter the password: ' + password + '\n\nRegards,\nAmindu'
-        
+        text: `Dear User,\n\nIf using localhost, click ${link}\nIf using heroku link, click https://studentapplicationmern.herokuapp.com/ \nPassword: ${password}\n\nRegards,\nAmindu`
     };
 
     transporter.sendMail(mailOptions, function(error, info){
