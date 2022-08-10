@@ -8,16 +8,17 @@ Email: aixxdu@gmail.com
 
 ### Step 1
 Clone the repo using: <br> `git clone https://github.com/Amixdu/StudentAppMernStack.git`
-
+<br>
 
 ### Step 2
 Go to the directory and run the command `docker-compose up` to get everything started up <br>
-
+<br>
 
 ### Step 3
 Access the app at http://localhost:3000/
 
 IMPORTANT:  Please ensure ports 3000 and 8000 are free
+<br>
 
 ### Note
 #### Running without docker:
