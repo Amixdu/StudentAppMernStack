@@ -2,7 +2,6 @@
 
 Name: Amindu Kumarasinghe <br>
 Email: amixxdu@gmail.com <br>
-App Hosted On Heroku: https://studentapplicationmern.herokuapp.com/ <br>
 
 Prerequisites:<br>
 NodeJS: https://nodejs.org/en/download/<br>
@@ -70,7 +69,10 @@ An initial admin seeder file can be run by following these steps:<br>
 
 
 ### Completion
-10/11 Development tasks completed (unit testing not done)
+10/11 Development tasks completed (unit testing not done) <br?>
+
+App Hosted On Heroku: https://studentapplicationmern.herokuapp.com/ <br>
+(Note: Using Docker and running on localhost is much faster than the running the Heroku link)
 
 
 
