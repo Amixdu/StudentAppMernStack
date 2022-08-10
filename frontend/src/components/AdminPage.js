@@ -211,7 +211,7 @@ export default function AdminPage() {
                                     </Form.Group> 
                                 </Form>
 
-                                <Button disabled={loading} onClick={handleFilter} style={{display:'inline-block'}} >
+                                <Button disabled={loading || !filterVariableData} onClick={handleFilter} style={{display:'inline-block'}} >
                                     Filter
                                 </Button>
 
