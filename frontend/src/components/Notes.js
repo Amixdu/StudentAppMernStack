@@ -174,11 +174,9 @@ export default function Notes() {
             <>
               <div className='box'>
                 <h2 style={{ fontSize:'50px', fontWeight:"bold", fontFamily:"Georgia, serif" }}>Notes</h2>
-                {/* <div className='buttonRight'> */}
                     <Link to="/" className='btn btn-primary'>Log Out</Link>
                     {'  '}
                     <Button onClick={() => handleAddModalShow()} className=''>Add Notes</Button>
-                {/* </div> */}
               </div> 
 
               <div className='mt-4 mb-4'>
