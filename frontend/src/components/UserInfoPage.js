@@ -15,7 +15,6 @@ export default function UserInfoPage() {
 
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
-    const [finished, setFinished] = useState(false)
     const [msg, setMsg] = useState()
     const [success, setSuccess] = useState()
 
@@ -51,14 +50,12 @@ export default function UserInfoPage() {
 
             const data = await req.json()
             if (data.status == 'ok'){
-                setFinished(true)
                 setMsg('Data successfully updated! Closing this will redirect you to the login page, please login again')
                 setLoading(false)
                 setSuccess(true)
                 setShowModal(true)
             }
             else{
-                setFinished(true)
                 setMsg('There was an error in updating the data. Please try again')
                 setLoading(false)
                 setSuccess(false)
