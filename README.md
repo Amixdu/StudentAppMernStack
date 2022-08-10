@@ -23,7 +23,7 @@ IMPORTANT:  Please ensure ports 3000 and 8000 are free
 ### Note
 #### Running without docker:
 First run `npm install` then run `npm start` on both the frontend directory and the backend directory seperately. <br> Then access localhost the app through the link in step 3
-
+<br>
 
 ## Using The App
 
@@ -34,22 +34,22 @@ pw: password <br><br>
 Sample student account for convenince (not first time login): <br>
 email: student1@gmail.com <br>
 pw: password <br><br>
-<br>
+
 
 ### Adding an admin
 An initial admin seeder file can be run by following these steps:<br>
 1. Move to the backend directory <br>
 2. Run `node admin_seeder.js` <br>
 3. This will create an admin with the email 'admin@gmail.com'<br>
-4. Use this email with the password `password` for a first time login, where you can fill the information
+4. Use this email with the password `password` for a first time login, where you can fill up the information and reset the password
 <br><br>
 
 ### Adding students
 1. Login as an admin <br>
 2. Click the `Add Students` button on the top left <br>
 3. Enter a valid email adress and click create<br>
-4. An email will be sent with a login link and a password<br>
-5. Login using the password, and fill up user information<br>
+4. An email will be sent to the entered email with a login link and a password<br>
+5. Login using the password, and fill up user information and reset the password<br>
 
 
 
