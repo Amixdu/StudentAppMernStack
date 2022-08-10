@@ -20,6 +20,10 @@ app.use(express.json())
 app.use('/notes', noteRoutes)
 app.use('/users', userRoutes)
 
+app.get('/', (req, res) => {
+    return res.send('Server Is Running!')
+})
+
 const CONNECTION_URL = 'mongodb+srv://amin:qwerty1029384756@cluster0.qnehnrn.mongodb.net/?retryWrites=true&w=majority'
 const PORT = process.env.PORT || 8000
 
