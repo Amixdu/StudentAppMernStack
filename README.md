@@ -23,7 +23,7 @@ IMPORTANT:  Please ensure ports 3000 and 8000 are free
 ### Note
 #### Running without docker:
 First run `npm install` then run `npm start` on both the frontend directory and the backend directory seperately. <br> Then access localhost the app through the link in step 3
-<br>
+<br><br>
 
 ## Using The App
 
