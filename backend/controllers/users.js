@@ -43,7 +43,6 @@ const sendEmail = (email, password, link) => {
 }
 
 export const createUser = async (req, res) => {
-    console.log(req.body)
     const tempPw = generateTempPassword()
     try{
         const user = await User.create({
@@ -68,14 +67,12 @@ export const createUser = async (req, res) => {
 export const loginUser = async (req, res) => {
     const userData = await User.findOne({ email: req.body.email, password: req.body.password })
     if (userData) {
-        console.log("YES")
         const user = { email: req.body.email }
         const token = jwt.sign(user, process.env.ACCESS_TOKEN)
 
         return res.json({ status: 'success', user: token, userStatus: userData.status, accountType: userData.accountType })
     }
     else{
-        console.log("NO")
         return res.json({ status: 'error' })
     }
 }
@@ -99,7 +96,6 @@ export const addUserInfo = async (req, res) => {
                 password: req.body.resetPassword,
                 accountType: userData.accountType
             }})
-        console.log('User Details Updated')
         return res.json({ status: 'ok' })
     }
     catch(error){
