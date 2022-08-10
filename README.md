@@ -2,6 +2,7 @@
 
 Name: Amindu Kumarasinghe <br>
 Email: amixxdu@gmail.com <br>
+App Hosted On Heroku: https://studentapplicationmern.herokuapp.com/ <br>
 
 Prerequisites:<br>
 NodeJS: https://nodejs.org/en/download/<br>
