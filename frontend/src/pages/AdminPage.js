@@ -25,6 +25,7 @@ export default function AdminPage() {
     const [filteredPageNumber, setFilteredPageNumber] = useState(0)
     const [filteredPages, setFilteredPages] = useState()
     const [filtered, setFiltered] = useState(false)
+    const [filterToggle, setFilterToggle] = useState(false)
 
     const [clickedId, setClickedID] = useState()
     const [clickedFirstName, setClickedFirstName] = useState()
@@ -61,7 +62,9 @@ export default function AdminPage() {
     }
 
     const handleRemoveFilter = () => {
+        setLoading(true)
         setFiltered(false)
+        setFilterToggle(!filterToggle)
     }
 
     const handleSubmit = async (e) => {
@@ -107,14 +110,17 @@ export default function AdminPage() {
                 setFilteredPages(data.totalPages)
                 setFetchedFilteredUsers(data.users)
                 setFiltered(true)
+                setFilterToggle(!filterToggle)
                 setFilterVariableData('')
             }
             else{
                 setFiltered(false)
+                setFilterToggle(!filterToggle)
             }
         }
         else{
             setFiltered(false)
+            setFilterToggle(!filterToggle)
         }
     }
 
@@ -140,7 +146,7 @@ export default function AdminPage() {
 
     useEffect(() => {
         setLoading(false)
-    }, [filtered])
+    }, [filterToggle])
 
     useEffect(() => {
         getUsers()
