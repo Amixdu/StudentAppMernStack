@@ -8,6 +8,14 @@ NodeJS: https://nodejs.org/en/download/<br>
 Docker: https://docs.docker.com/get-docker/<br>
 
 
+## Project Information
+
+Frontend - ReactJS <br>
+Backend - NodeJS + Express <br>
+Database - MongoDB <br>
+Authentication - JWTs <br>
+
+
 ## Project Setup
 
 ### Step 1
@@ -58,5 +66,6 @@ An initial admin seeder file can be run by following these steps:<br>
 
 ### Completion
 10/11 Development tasks completed (unit testing not done)
+
 
 
