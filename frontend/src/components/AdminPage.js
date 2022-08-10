@@ -138,12 +138,14 @@ export default function AdminPage() {
 
     useEffect(() => {
         getUsers()
+        // eslint-disable-next-line
     }, [pageNumber])
 
     useEffect(() => {
         if (filtered){
             handleFilter()
         }
+        // eslint-disable-next-line
     }, [filteredPageNumber])
 
 

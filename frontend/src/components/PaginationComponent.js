@@ -18,6 +18,7 @@ export default function PaginationComponent({ totalPages, updatePageNumber, page
     
     useEffect(() => {
         fillItems()
+        // eslint-disable-next-line
     }, [pageNumber])
 
     return (
