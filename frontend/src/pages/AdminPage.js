@@ -61,7 +61,6 @@ export default function AdminPage() {
     }
 
     const handleRemoveFilter = () => {
-        setLoading(true)
         setFiltered(false)
     }
 
