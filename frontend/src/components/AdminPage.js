@@ -53,6 +53,11 @@ export default function AdminPage() {
         setShowAddUserModal(true)
     }
 
+    const handleRemoveFilter = () => {
+        setLoading(true)
+        setFiltered(false)
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         const response = await fetch('http://localhost:8000/users/create', {
@@ -217,7 +222,7 @@ export default function AdminPage() {
 
                                 {' '}
 
-                                <Button disabled={loading} onClick={() => setFiltered(false)} style={{display:'inline-block'}} >
+                                <Button disabled={loading} onClick={handleRemoveFilter} style={{display:'inline-block'}} >
                                     Remove Filter
                                 </Button>
                                 
