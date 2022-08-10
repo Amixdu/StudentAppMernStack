@@ -27,6 +27,11 @@ export default function Notes() {
 
   const navigate = useNavigate()
 
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    navigate('/')
+  }
+
   const handleAddModalClose = () => setShowAddModal(false)
   const handleAddModalShow = () => {
     setError('')
@@ -169,7 +174,7 @@ export default function Notes() {
             <>
               <div className='box'>
                 <h2 style={{ fontSize:'50px', fontWeight:"bold", fontFamily:"Georgia, serif" }}>Notes</h2>
-                    <Link to="/" className='btn btn-primary'>Log Out</Link>
+                    <Button onClick={handleLogout}>Log Out</Button>
                     {'  '}
                     <Button onClick={() => handleAddModalShow()} className=''>Add Notes</Button>
               </div> 
@@ -206,7 +211,7 @@ export default function Notes() {
             <Container className='d-flex align-items-center justify-content-center' style={{ minHeight: "95vh" }}>
               <div>
                   <p style={{ fontSize:'35px' }}> No Notes Available </p>
-                  <Button onClick={() => navigate(-1)}>Logout</Button>
+                  <Button onClick={handleLogout}>Log Out</Button>
                   {'  '}
                   <Button onClick={() => handleAddModalShow()} className=''>Add Notes</Button>
               </div>

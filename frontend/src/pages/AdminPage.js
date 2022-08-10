@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Modal, Form, Alert, Button, Table } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Loader from '../components/Loader'
 import LoaderMiddle from '../components/LoaderMiddle'
 import "./AdminPage.css"
@@ -34,6 +34,13 @@ export default function AdminPage() {
     const [clickedMobile, setClickedMobile] = useState()
     const [clickedStatus, setClickedStatus] = useState()
     const [clickedAccountType, setClickedAccountType] = useState()
+
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        localStorage.removeItem('token')
+        navigate('/')
+      }
 
     const handleDetailsModalOpen = (id, fName, lName, email, dob, mobile, status, aType) => {
         setClickedID(id)
@@ -157,7 +164,7 @@ export default function AdminPage() {
                     <>
                         <div className='box'>
                             <h2 style={{ fontSize:'50px', fontWeight:"bold", fontFamily:"Georgia, serif" }}>Users</h2>
-                            <Link to="/" className='btn btn-primary'>Log Out</Link>
+                            <Button onClick={handleLogout}>Log Out</Button>
                             {'  '}
                             <Button onClick={() => handleOpenModal()} className=''>Add Students</Button>
                         </div> 

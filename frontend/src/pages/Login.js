@@ -52,12 +52,6 @@ export default function Login() {
       }
     }
 
-
-
-    useEffect(() => {
-      localStorage.removeItem('token')
-    }, [])
-
     return (
       <div style={{ backgroundColor:'#1569C7' }}>
         <Container className='d-flex align-items-center justify-content-center' style={{ minHeight: "100vh" }}>
