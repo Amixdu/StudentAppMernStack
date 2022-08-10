@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Modal, Button, Form, Container, Card, Alert } from 'react-bootstrap'
 import Loader from '../components/Loader'
 import LoaderMiddle from '../components/LoaderMiddle';
@@ -65,21 +65,22 @@ export default function Notes() {
       },
       body: JSON.stringify({
         title: newNoteTitle,
-        description: newNoteDescription
+        description: newNoteDescription,
+        pageNumber: pageNumber
       })
     })
 
     const data = await req.json()
     if (data.status === 'ok'){
+      setTotalPages(data.totalPages)
       setFetchedNotes(data.notes)
-      setReload(!reload)
-      setShowAddModal(false)
       setError('')
+      setShowAddModal(false)
       setLoading(false)
     }
     else{
-      setLoading(false)
       setError('There was an error in adding the note')
+      setLoading(false)
     }
   }
 
@@ -102,21 +103,28 @@ export default function Notes() {
     const data = await req.json()
 
     if (data.status === 'ok'){
-      setFetchedNotes(data.notes)
       setReload(!reload)
-      setShowUpdateModal(false)
       setError('')
+      setShowUpdateModal(false)
       setLoading(false)
     }
     else{
-      setLoading(false)
       setError('There was an error in updating the note')
+      setLoading(false)
     }
   }
 
   const handleDelete = async (e) => {
     e.preventDefault()
     setLoading(true)
+
+    if (pageNumber > 0){
+      if (fetchedNotes.length === 1){
+        setPageNumber(pageNumber - 1)
+        setTotalPages(totalPages - 1)
+      }
+    }
+
     const req = await fetch('http://localhost:8000/notes/delete', {
       method: 'POST',
       headers:{
@@ -131,19 +139,19 @@ export default function Notes() {
     const data = await req.json()
 
     if (data.status === 'ok'){
-      setFetchedNotes(data.notes)
-      setReload(!reload)
       setShowDeleteModal(false)
       setError('')
+      setReload(!reload)
       setLoading(false)
     }
     else{
-      setLoading(false)
       setError('There was an error in deleting the note')
+      setLoading(false)
     }
   }
   
   useEffect(() => {
+    
     const getNotes = async () => {
       const req = await fetch(`http://localhost:8000/notes?page=${pageNumber}`, {
         headers:{
@@ -152,9 +160,10 @@ export default function Notes() {
       })
   
       const data = await req.json()
+      console.log(pageNumber)
       if (data.status === 'ok'){
-        setTotalPages(data.totalPages)
         setFetchedNotes(data.notes.length > 0 ? data.notes : 'Empty')
+        setTotalPages(data.totalPages)
         setError('')
       }
       else{
@@ -168,7 +177,7 @@ export default function Notes() {
   return (
     <>
       {
-        fetchedNotes ?
+        (fetchedNotes && !loading) ?
         (
           fetchedNotes !== 'Empty' ? (
             <>
@@ -213,6 +222,7 @@ export default function Notes() {
                   <p style={{ fontSize:'35px' }}> No Notes Available </p>
                   <Button onClick={handleLogout}>Log Out</Button>
                   {'  '}
+                  {console.log(fetchedNotes)}
                   <Button onClick={() => handleAddModalShow()} className=''>Add Notes</Button>
               </div>
             </Container>
@@ -220,7 +230,6 @@ export default function Notes() {
         ) : error ? <Alert variant='danger'>{error}</Alert> : <LoaderMiddle col='primary'/>
       }
       
-
       <Modal show={showAddModal} onHide={handleAddModalClose}>
           {error && <Alert variant='danger'>{error}</Alert>}
           {loading && <Loader backgCol={'light'}/>}

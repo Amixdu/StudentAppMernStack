@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Modal, Form, Alert, Button, Table } from 'react-bootstrap'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Loader from '../components/Loader'
 import LoaderMiddle from '../components/LoaderMiddle'
 import "./AdminPage.css"
@@ -154,7 +154,6 @@ export default function AdminPage() {
         }
         // eslint-disable-next-line
     }, [filteredPageNumber])
-
 
     return (
         <div >
