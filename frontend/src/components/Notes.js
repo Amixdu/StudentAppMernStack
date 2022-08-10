@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Modal, Button, Form, Container, Card } from 'react-bootstrap'
+import { Modal, Button, Form, Container, Card, Alert } from 'react-bootstrap'
 import Loader from './Loader'
 import LoaderMiddle from './LoaderMiddle';
 import "./Notes.css"
@@ -28,16 +28,21 @@ export default function Notes() {
   const navigate = useNavigate()
 
   const handleAddModalClose = () => setShowAddModal(false)
-  const handleAddModalShow = () => setShowAddModal(true)
+  const handleAddModalShow = () => {
+    setError('')
+    setShowAddModal(true)
+  }
 
   const handleRemoveModalClose = () => setShowDeleteModal(false);
   const handleRemoveModalShow = (id) => {
+      setError('')
       setClickedNoteId(id)
       setShowDeleteModal(true)
   }
 
   const handleUpdateModalClose = () => setShowUpdateModal(false);
   const handleUpdateModalShow = (id, title, description) => {
+    setError('')
     setClickedNoteId(id)
     setClikedNoteTitle(title)
     setClikedNoteDescription(description)
@@ -64,13 +69,12 @@ export default function Notes() {
       setFetchedNotes(data.notes)
       setReload(!reload)
       setShowAddModal(false)
+      setError('')
       setLoading(false)
-      console.log('Note Added Successfully')
     }
     else{
-      setShowAddModal(false)
       setLoading(false)
-      console.log('There was an error in adding the note')
+      setError('There was an error in adding the note')
     }
   }
 
@@ -96,12 +100,12 @@ export default function Notes() {
       setFetchedNotes(data.notes)
       setReload(!reload)
       setShowUpdateModal(false)
+      setError('')
       setLoading(false)
     }
     else{
-      setShowUpdateModal(false)
       setLoading(false)
-      console.log('There was an error in updating the note')
+      setError('There was an error in updating the note')
     }
   }
 
@@ -125,13 +129,12 @@ export default function Notes() {
       setFetchedNotes(data.notes)
       setReload(!reload)
       setShowDeleteModal(false)
+      setError('')
       setLoading(false)
-      console.log('Note Deleted Successfully')
     }
     else{
-      setShowDeleteModal(false)
       setLoading(false)
-      console.log('There was an error in deleting the note')
+      setError('There was an error in deleting the note')
     }
   }
   
@@ -147,9 +150,11 @@ export default function Notes() {
       if (data.status === 'ok'){
         setTotalPages(data.totalPages)
         setFetchedNotes(data.notes.length > 0 ? data.notes : 'Empty')
+        setError('')
       }
       else{
-        window.alert('There was an issue in retrieving the data')
+        setFetchedNotes('')
+        setError('There was an issue in retrieving the data')
       }
     }
     getNotes()
@@ -207,11 +212,12 @@ export default function Notes() {
               </div>
             </Container>
           )
-        ) : <LoaderMiddle col='primary'/>
+        ) : error ? <Alert variant='danger'>{error}</Alert> : <LoaderMiddle col='primary'/>
       }
       
 
       <Modal show={showAddModal} onHide={handleAddModalClose}>
+          {error && <Alert variant='danger'>{error}</Alert>}
           {loading && <Loader backgCol={'light'}/>}
           <Modal.Header closeButton>
               <Modal.Title style={{ textAlign:"center" }}> Add Notes</Modal.Title>
@@ -239,8 +245,9 @@ export default function Notes() {
       </Modal>
 
       <Modal show={showUpdateModal} onHide={handleUpdateModalClose}>
+          {error && <Alert variant='danger'>{error}</Alert>}
           {loading && <Loader backgCol={'light'}/>}
-
+          
           <Modal.Header closeButton>
             <Modal.Title> Update Show Details</Modal.Title>
           </Modal.Header>
@@ -267,6 +274,7 @@ export default function Notes() {
       </Modal>
 
       <Modal show={showDeleteModal} onHide={handleRemoveModalClose}>
+          {error && <Alert variant='danger'>{error}</Alert>}
           {loading && <Loader backgCol={'light'}/>}
           <Modal.Header closeButton>
               <Modal.Title style={{ textAlign:"center" }}> Are you sure you want to delete this note? </Modal.Title>
