@@ -1,6 +1,7 @@
 import User from '../models/user.model.js'
 import jwt from 'jsonwebtoken'
 import nodemailer from 'nodemailer'
+import bcrypt from 'bcryptjs'
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -65,8 +66,16 @@ export const createUser = async (req, res) => {
 }
 
 export const loginUser = async (req, res) => {
-    const userData = await User.findOne({ email: req.body.email, password: req.body.password })
-    if (userData) {
+    const userData = await User.findOne({ email: req.body.email })
+
+    if (!userData) {
+        return  res.json({ status: 'error' })
+    }
+
+    // If this is a first time login, the passwords are not hashed, so compare directly
+    // If not a first time login, passwords are hashed, so using bcrypt to compare
+    const isPwValid = userData.status ? (req.body.password === userData.password) : await bcrypt.compare(req.body.password, userData.password)
+    if (isPwValid) {
         const user = { email: req.body.email }
         const token = jwt.sign(user, process.env.ACCESS_TOKEN)
 
@@ -85,6 +94,7 @@ export const addUserInfo = async (req, res) => {
         const user = jwt.verify(token, process.env.ACCESS_TOKEN)
         const email = user.email
         const userData = await User.findOne({ email: email })
+        const password = await bcrypt.hash(req.body.resetPassword, 10)
         await User.updateOne({ email: email }, { $set: 
             { 
                 firstName: req.body.firstName, 
@@ -93,7 +103,7 @@ export const addUserInfo = async (req, res) => {
                 dateOfBirth: req.body.dateOfBirth,
                 mobile: req.body.mobile,
                 status: false,
-                password: req.body.resetPassword,
+                password: password,
                 accountType: userData.accountType
             }})
         return res.json({ status: 'ok' })
