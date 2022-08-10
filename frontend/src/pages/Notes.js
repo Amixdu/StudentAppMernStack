@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Modal, Button, Form, Container, Card, Alert } from 'react-bootstrap'
-import Loader from './Loader'
-import LoaderMiddle from './LoaderMiddle';
+import Loader from '../components/Loader'
+import LoaderMiddle from '../components/LoaderMiddle';
 import "./Notes.css"
-import PaginationComponent from './PaginationComponent';
+import PaginationComponent from '../components/PaginationComponent';
 
 export default function Notes() {
   const [fetchedNotes, setFetchedNotes] = useState()

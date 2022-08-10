@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Alert } from 'react-bootstrap'
 import { Form, Button, Card, Container, Modal } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import Loader from './Loader'
+import Loader from '../components/Loader'
 
 export default function UserInfoPage() {
     const [firstName, setFirstName] = useState()

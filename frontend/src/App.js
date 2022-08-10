@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Login from './components/Login';
-import Notes from './components/Notes'
-import UserInfoPage from "./components/UserInfoPage";
-import AdminPage from "./components/AdminPage";
+import Login from './pages/Login';
+import Notes from './pages/Notes'
+import UserInfoPage from "./pages/UserInfoPage";
+import AdminPage from "./pages/AdminPage";
 import PrivateRoute from "./components/PrivateRoute";
 import PrivateAdminRoute from "./components/PrivateAdminRoute";
 import PrivateUserInfoRoute from "./components/PrivateUserInfoRoute";

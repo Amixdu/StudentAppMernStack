@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Modal, Form, Alert, Button, Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import Loader from './Loader'
-import LoaderMiddle from './LoaderMiddle'
+import Loader from '../components/Loader'
+import LoaderMiddle from '../components/LoaderMiddle'
 import "./AdminPage.css"
-import PaginationComponent from './PaginationComponent'
+import PaginationComponent from '../components/PaginationComponent'
 
 export default function AdminPage() {
     const [showAddUserModal, setShowAddUserModal] = useState()
