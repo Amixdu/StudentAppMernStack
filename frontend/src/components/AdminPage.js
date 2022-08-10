@@ -172,7 +172,7 @@ export default function AdminPage() {
                                                     const [key, value] = user
                                                     const formattedDate = (String(value.dateOfBirth)).slice(0, 10)
                                                     return (
-                                                        <tr>
+                                                        <tr key={key}>
                                                             <td>{value.email}</td>
                                                             <td><Button onClick={() => handleDetailsModalOpen(value._id, value.firstName, value.lastName, value.email, formattedDate, value.mobile, String(value.status), value.accountType)}>Details</Button></td>
                                                         </tr>
@@ -191,7 +191,7 @@ export default function AdminPage() {
                                                     const [key, value] = user
                                                     const formattedDate = (String(value.dateOfBirth)).slice(0, 10)
                                                     return (
-                                                        <tr>
+                                                        <tr key={key}>
                                                             <td>{value.email}</td>
                                                             <td><Button onClick={() => handleDetailsModalOpen(value._id, value.firstName, value.lastName, value.email, formattedDate, value.mobile, String(value.status), value.accountType)}>Details</Button></td>
                                                         </tr>
