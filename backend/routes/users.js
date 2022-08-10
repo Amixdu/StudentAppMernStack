@@ -9,5 +9,6 @@ router.get('/auth', userAuthenticate)
 router.post('/create', createUser)
 router.post('/login', loginUser)
 router.post('/add-info', addUserInfo)
+router.get('/forgot-password', userAuthenticate)
 
 export default router

@@ -39,7 +39,6 @@ const sendEmail = (email, password, link) => {
           console.log('Email sent: ' + info.response);
         }
     });
-
 }
 
 export const createUser = async (req, res) => {
@@ -152,4 +151,15 @@ export const userAuthenticate = async (req, res) => {
     catch(error){
         return res.json({ status: 'error' })
     }  
+}
+
+export const recoverPassword = async (req, res) => {
+    const userData = await User.findOne({ email: req.body.email })
+    if (userData) {
+        sendEmail(req.body.email, userData.password, 'http://localhost:3000/')
+        return res.json({ status: 'ok' })
+    }
+    else{
+        return res.json({ status: 'error' })
+    }
 }
