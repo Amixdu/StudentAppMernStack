@@ -210,9 +210,17 @@ export default function AdminPage() {
                                         <Form.Control type={filterVariable === 'Email' ? "email" : "text"} required onChange={(e) => {setFilterVariableData(e.target.value)}} placeholder={'Enter ' + filterVariable} ></Form.Control>
                                     </Form.Group> 
                                 </Form>
-                                <Button disabled={loading} onClick={handleFilter} >
+
+                                <Button disabled={loading} onClick={handleFilter} style={{display:'inline-block'}} >
                                     Filter
                                 </Button>
+
+                                {' '}
+
+                                <Button disabled={loading} onClick={() => setFiltered(false)} style={{display:'inline-block'}} >
+                                    Remove Filter
+                                </Button>
+                                
                             </div>
                         </div>
                     </>
