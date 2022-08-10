@@ -1,7 +1,11 @@
 # Startup Instructions
 
 Name: Amindu Kumarasinghe <br>
-Email: aixxdu@gmail.com
+Email: aixxdu@gmail.com <br> <br>
+
+Prerequisites:<br>
+NodeJS: https://nodejs.org/en/download/<br>
+Docker: https://docs.docker.com/get-docker/<br>
 
 
 ## Project Setup
