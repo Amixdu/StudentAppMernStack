@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { Modal, Form, Alert, Container, Card, Button, Table } from 'react-bootstrap'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Modal, Form, Alert, Button, Table } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import Loader from './Loader'
 import LoaderMiddle from './LoaderMiddle'
 import "./AdminPage.css"
@@ -9,21 +9,22 @@ import PaginationComponent from './PaginationComponent'
 export default function AdminPage() {
     const [showAddUserModal, setShowAddUserModal] = useState()
     const [showDetailsModal, setShowDetailsModal] = useState()
-    const [email, setEmail] = useState()
+    const [createUserEmail, setCreateUserEmail] = useState()
+
     const [msg, setMsg] = useState('')
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState()
+
     const [fetchedUsers, setFetchedUsers] = useState()
     const [pageNumber, setPageNumber] = useState(0)
     const [totalPages, setTotalPages] = useState()
+
     const [filterVariable, setFilterVariable] = useState('Email')
     const [filterVariableData, setFilterVariableData] = useState()
     const [fetchedFilteredUsers, setFetchedFilteredUsers] = useState()
     const [filteredPageNumber, setFilteredPageNumber] = useState(0)
     const [filteredPages, setFilteredPages] = useState()
     const [filtered, setFiltered] = useState(false)
-    const filterDataRef = useRef()
-
 
     const [clickedId, setClickedID] = useState()
     const [clickedFirstName, setClickedFirstName] = useState()
@@ -60,7 +61,7 @@ export default function AdminPage() {
             'Content-Type' : 'application/json'
         },
         body: JSON.stringify({
-            email
+            email: createUserEmail
         })
         })
 
@@ -75,8 +76,6 @@ export default function AdminPage() {
         }
         setLoading(false)
     }
-
-
 
     const handleFilter = async () => {
         setLoading(true)
@@ -93,7 +92,7 @@ export default function AdminPage() {
             })
             })
             const data = await req.json()
-            if (data.status == 'ok'){
+            if (data.status === 'ok'){
                 setFilteredPages(data.totalPages)
                 setFetchedFilteredUsers(data.users)
                 setFiltered(true)
@@ -117,7 +116,8 @@ export default function AdminPage() {
         })
     
         const data = await req.json()
-        if (data.status == 'ok'){
+
+        if (data.status === 'ok'){
             setTotalPages(data.totalPages)
             setFetchedUsers(data.users)
         }
@@ -147,7 +147,6 @@ export default function AdminPage() {
             {
                 (fetchedUsers && !loading) ?
                 (
-                   
                     <>
                         <div className='box'>
                             <h2 style={{ fontSize:'50px', fontWeight:"bold", fontFamily:"Georgia, serif" }}>Users</h2>
@@ -195,10 +194,8 @@ export default function AdminPage() {
                                                     })}
                                             </tbody>
                                         </Table>
-                                        {/* {console.log(filteredPages)} */}
                                         <PaginationComponent totalPages={filteredPages} updatePageNumber={(e) => setFilteredPageNumber(e)} pageNumber={filteredPageNumber} />
                                     </> : <p style={{ fontSize:'20px' }}>No Matches</p>
-                                    
                                 }
                             </div>
 
@@ -211,21 +208,15 @@ export default function AdminPage() {
                                     </Form.Select>
                                     <Form.Group id="email" className='mb-3'>
                                         <Form.Control type={filterVariable === 'Email' ? "email" : "text"} required onChange={(e) => {setFilterVariableData(e.target.value)}} placeholder={'Enter ' + filterVariable} ></Form.Control>
-                                    </Form.Group>
-
-                                    
+                                    </Form.Group> 
                                 </Form>
                                 <Button disabled={loading} onClick={handleFilter} >
                                     Filter
                                 </Button>
                             </div>
-
                         </div>
                     </>
-                    
-                    
                 ) : <LoaderMiddle col='primary'/>
-                
             }
             
             <Modal show={showAddUserModal} onHide={() => setShowAddUserModal(false)}>
@@ -239,7 +230,7 @@ export default function AdminPage() {
                     <Form onSubmit={handleSubmit}>
                         <Form.Group id="email" className='mb-3'>
                             <Form.Label>Email</Form.Label>
-                            <Form.Control type="email" required onChange={(e) => {setEmail(e.target.value)}} ref={filterDataRef}></Form.Control>
+                            <Form.Control type="email" required onChange={(e) => {setCreateUserEmail(e.target.value)}}></Form.Control>
                         </Form.Group>
 
                         <Button disabled={loading} className='w-100' type="submit">
