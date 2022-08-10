@@ -19,11 +19,12 @@ Authentication - JWTs <br> <br>
 ## Project Setup
 
 ### Step 1
-Clone the repo using: <br> `git clone https://github.com/Amixdu/StudentAppMernStack.git`
+Clone the repo using: <br> `git clone https://github.com/Amixdu/StudentAppMernStack.git` <br>
+And go into the directory using `cd StudentAppMernStack`
 <br><br>
 
 ### Step 2
-Go to the directory and run the command `docker-compose up` to get everything started up (run `docker-compose build --no-cache` if any issues arise) <br><br>
+In the project directory, run the command `docker-compose up` to get everything started up (run `docker-compose build --no-cache` if any issues arise) <br><br>
 
 
 ### Step 3
