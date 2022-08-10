@@ -1,8 +1,7 @@
+import jwt from 'jsonwebtoken'
+import Note from '../models/note.model.js'
 import dotenv from 'dotenv'
 dotenv.config()
-import jwt from 'jsonwebtoken'
-import User from '../models/user.model.js'
-import Note from '../models/note.model.js'
 
 export const getNotes = async (req, res) => {
     const PAGE_SIZE = 3
@@ -14,7 +13,6 @@ export const getNotes = async (req, res) => {
         const totalNotes = await Note.countDocuments({email: email })
         const totalPages = Math.ceil((totalNotes / PAGE_SIZE))
         const data = await Note.find({ email: email }).limit(PAGE_SIZE).skip(PAGE_SIZE * page)
-        // console.log(data)
         return res.json({ status: 'ok', notes: data, totalPages:totalPages })
     }
     catch(error){
@@ -33,7 +31,6 @@ export const addNotes = async (req, res) => {
             title: req.body.title, 
             description: req.body.description 
         })
-        console.log('Note Added')
         return res.json({ status: 'ok' })
     }
     catch(error){
@@ -49,7 +46,6 @@ export const updateNotes = async (req, res) => {
         const user = jwt.verify(token, process.env.ACCESS_TOKEN)
         const email = user.email
         await Note.updateOne({ _id: req.body.id }, { $set: { title: req.body.title, description: req.body.description }})
-        console.log('Note Updated')
         return res.json({ status: 'ok' })
     }
     catch(error){
@@ -58,7 +54,6 @@ export const updateNotes = async (req, res) => {
     }
 }
 
-
 export const deleteNotes = async (req, res) => {
     const token = req.headers['x-access-token']
 
@@ -66,7 +61,6 @@ export const deleteNotes = async (req, res) => {
         const user = jwt.verify(token, process.env.ACCESS_TOKEN)
         const email = user.email
         await Note.deleteOne({ _id: req.body.id })
-        console.log('Note Deleted')
         return res.json({ status: 'ok' })
     }
     catch(error){

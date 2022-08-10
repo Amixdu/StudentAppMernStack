@@ -19,4 +19,3 @@ const User = new Schema(
 const model = mongoose.model('Users', User)
 
 export default model
-// module.exports = model

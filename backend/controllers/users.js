@@ -115,8 +115,7 @@ export const getUsers = async (req, res) => {
     const totalUsers = await User.countDocuments({})
     const totalPages = Math.ceil((totalUsers / PAGE_SIZE))
     try{
-        // const user = jwt.verify(token, process.env.ACCESS_TOKEN)
-        // const email = user.email
+        jwt.verify(token, process.env.ACCESS_TOKEN)
         const data = await User.find().limit(PAGE_SIZE).skip(PAGE_SIZE * page)
 
         return res.json({ status: 'ok', users: data, totalPages:totalPages })
@@ -135,6 +134,7 @@ export const getFilteredUsers = async (req, res) => {
     const filterVariableData = req.body.filterVariableData
     const search = filterVariable === 'Email' ? { email: filterVariableData } : (filterVariable === 'ID' ? { _id: filterVariableData } : { firstName: filterVariableData })
     try{
+        jwt.verify(token, process.env.ACCESS_TOKEN)
         totalUsers = await User.countDocuments(search)   
         const totalPages = Math.ceil((totalUsers / PAGE_SIZE))
         const data = await User.find(search).limit(PAGE_SIZE).skip(PAGE_SIZE * page)
