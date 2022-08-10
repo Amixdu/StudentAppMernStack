@@ -49,7 +49,7 @@ export default function UserInfoPage() {
             })
 
             const data = await req.json()
-            if (data.status == 'ok'){
+            if (data.status === 'ok'){
                 setMsg('Data successfully updated! Closing this will redirect you to the login page, please login again')
                 setLoading(false)
                 setSuccess(true)

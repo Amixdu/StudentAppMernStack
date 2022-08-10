@@ -1,23 +1,17 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { useJwt } from "react-jwt";
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Modal, Button, Form, Alert, Container, Card } from 'react-bootstrap'
+import { Modal, Button, Form, Container, Card } from 'react-bootstrap'
 import Loader from './Loader'
 import LoaderMiddle from './LoaderMiddle';
 import "./Notes.css"
 import PaginationComponent from './PaginationComponent';
 
 export default function Notes() {
-  const titleRef = useRef()
-  const descriptionRef = useRef()
-
   const [fetchedNotes, setFetchedNotes] = useState()
   const [pageNumber, setPageNumber] = useState(0)
   const [totalPages, setTotalPages] = useState()
   const [newNoteTitle, setNewNoteTitle] = useState()
   const [newNoteDescription, setNewNoteDescription] = useState()
-  const [title, setTitle] = useState()
-  const [description, setDescription] = useState()
   
   const [clickedNoteId, setClickedNoteId] = useState()
   const [clikedNoteTitle, setClikedNoteTitle] = useState()
@@ -25,7 +19,6 @@ export default function Notes() {
 
   const [loading, setLoading] = useState()
   const [error, setError] = useState('')
-  const [success, setSuccess] = useState(false)
   const [reload, setReload] = useState(false)
 
   const [showAddModal, setShowAddModal] = useState()
@@ -104,7 +97,6 @@ export default function Notes() {
       setReload(!reload)
       setShowUpdateModal(false)
       setLoading(false)
-      console.log('Note Added Successfully')
     }
     else{
       setShowUpdateModal(false)
@@ -143,25 +135,23 @@ export default function Notes() {
     }
   }
   
-  const getNotes = async () => {
-    const req = await fetch(`http://localhost:8000/notes?page=${pageNumber}`, {
-      headers:{
-        'x-access-token': localStorage.getItem('token')
-      }
-    })
-
-    const data = await req.json()
-    if (data.status === 'ok'){
-      console.log(data)
-      setTotalPages(data.totalPages)
-      setFetchedNotes(data.notes.length > 0 ? data.notes : 'Empty')
-    }
-    else{
-      window.alert('There was an issue in retrieving the data')
-    }
-  }
-
   useEffect(() => {
+    const getNotes = async () => {
+      const req = await fetch(`http://localhost:8000/notes?page=${pageNumber}`, {
+        headers:{
+          'x-access-token': localStorage.getItem('token')
+        }
+      })
+  
+      const data = await req.json()
+      if (data.status === 'ok'){
+        setTotalPages(data.totalPages)
+        setFetchedNotes(data.notes.length > 0 ? data.notes : 'Empty')
+      }
+      else{
+        window.alert('There was an issue in retrieving the data')
+      }
+    }
     getNotes()
   }, [reload, pageNumber])
 
@@ -184,7 +174,7 @@ export default function Notes() {
                   Object.entries(fetchedNotes).map((note) => {
                     const [key, value] = note
                     return (
-                      <Card key={value._id}>
+                      <Card key={key}>
                         <Card.Body>
                           <Card.Title>
                             <p style={{ fontSize:'30px' }}>{value.title}</p>
@@ -228,7 +218,6 @@ export default function Notes() {
           </Modal.Header>
 
           <Modal.Body>
-              {error && <Alert variant='danger'>{error}</Alert>}
 
               <Form onSubmit={handleAdd}>
                 <Form.Group id="name" className='mb-3'>
@@ -257,7 +246,6 @@ export default function Notes() {
           </Modal.Header>
 
           <Modal.Body>
-            {error && <Alert variant='danger'>{error}</Alert>}
             <Form onSubmit={handleUpdate}>
 
               <Form.Group id="title" className='mb-3'>
@@ -285,7 +273,6 @@ export default function Notes() {
           </Modal.Header>
 
           <Modal.Body>
-              {error && <Alert variant='danger'>{error}</Alert>}
               <Button disabled={loading} className='w-100' onClick={handleDelete}>
                   Confirm
               </Button>

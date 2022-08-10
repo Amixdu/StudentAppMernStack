@@ -15,7 +15,7 @@ export default function PaginationComponent({ totalPages, updatePageNumber, page
         }
         setData(items)
     }
-
+    
     useEffect(() => {
         fillItems()
     }, [pageNumber])
