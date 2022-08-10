@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import CreateUser from './components/CreateUser';
 import Login from './components/Login';
-import Test from './components/Test';
 import Notes from './components/Notes'
 import UserInfoPage from "./components/UserInfoPage";
 import AdminPage from "./components/AdminPage";
