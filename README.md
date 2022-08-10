@@ -1,7 +1,7 @@
 # Startup Instructions
 
 Name: Amindu Kumarasinghe <br>
-Email: aixxdu@gmail.com <br> <br>
+Email: amixxdu@gmail.com <br> <br>
 
 Prerequisites:<br>
 NodeJS: https://nodejs.org/en/download/<br>
