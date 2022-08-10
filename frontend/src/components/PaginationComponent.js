@@ -25,6 +25,4 @@ export default function PaginationComponent({ totalPages, updatePageNumber, page
             <Pagination>{data}</Pagination>
         </div>
     )
-
-
 }

@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { Alert } from 'react-bootstrap'
 import { Form, Button, Card, Container, Modal } from 'react-bootstrap'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Loader from './Loader'
 
 export default function UserInfoPage() {
@@ -56,9 +56,6 @@ export default function UserInfoPage() {
                 setLoading(false)
                 setSuccess(true)
                 setShowModal(true)
-
-                // window.alert('Data successfully updated! Click ok and login again.')
-                // navigate('/')
             }
             else{
                 setFinished(true)
@@ -66,7 +63,6 @@ export default function UserInfoPage() {
                 setLoading(false)
                 setSuccess(false)
                 setShowModal(true)
-                // console.log('There was an error in adding the note')
             }
         }
         else{
@@ -79,7 +75,9 @@ export default function UserInfoPage() {
         <div style={{ backgroundColor:'#1569C7' }}>
             <Container className='d-flex align-items-center justify-content-center' style={{ minHeight: "100vh" }}>
                 <div className='w-100' style={{ maxWidth: '400px' }}>
+
                     {loading && <Loader backgCol={'light'}/>}
+
                     <Card>
                         <Card.Body>
                         <h2 className="text-center mb-4">Add Information</h2>
