@@ -67,6 +67,17 @@ An initial admin seeder file can be run by following these steps:<br>
 4. An email will be sent to the entered email with a login link and a password<br>
 5. Login using the password, and fill up user information and reset the password<br><br>
 
+### Users List
+* Admins can see a list of users, with buttons to show a popup of each users details <br>
+* Backend pagination implemented to show 5 users per page <br>
+* Admins can filter users by Email, Name or ID<br><br>
+
+
+### Notes List
+* Students can see a list of notes, with options to add more notes, update and delete existing ones <br>
+* Backend pagination implemented to show 3 notes per page <br><br>
+
+
 
 ### Completion
 10/11 Development tasks completed (unit testing not done)
