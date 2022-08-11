@@ -56,7 +56,7 @@ pw: password <br><br>
 An initial admin seeder file can be run by following these steps:<br>
 1. Move to the backend directory <br>
 2. Run `node admin_seeder.js` <br>
-3. This will create an admin with the email 'admin@gmail.com'<br>
+3. This will create an admin with the email admin@gmail.com<br>
 4. Use this email with the password `password` for a first time login, where you can fill up the information and reset the password
 <br><br>
 
