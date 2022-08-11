@@ -52,7 +52,7 @@ email: student1@gmail.com <br>
 pw: password <br><br>
 
 
-### Adding an admin
+### Adding An Admin
 An initial admin seeder file can be run by following these steps:<br>
 1. Move to the backend directory <br>
 2. Run `node admin_seeder.js` <br>
@@ -60,7 +60,7 @@ An initial admin seeder file can be run by following these steps:<br>
 4. Use this email with the password `password` for a first time login, where you can fill up the information and reset the password
 <br><br>
 
-### Adding students
+### Adding Students
 1. Login as an admin <br>
 2. Click the `Add Students` button on the top left <br>
 3. Enter a valid email adress and click create<br>
