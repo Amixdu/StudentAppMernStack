@@ -79,7 +79,7 @@ An initial admin seeder file can be run by following these steps:<br>
 
 
 
-### Completion
+### Assignment Completion
 10/11 Development tasks completed (unit testing not done)
 
 App Hosted On Heroku: https://studentapplicationmern.herokuapp.com/ <br>
