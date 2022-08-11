@@ -64,8 +64,8 @@ An initial admin seeder file can be run by following these steps:<br>
 1. Login as an admin <br>
 2. Click the `Add Students` button on the top left <br>
 3. Enter a valid email adress and click create<br>
-4. An email will be sent to the entered email with a login link and a password<br>
-5. Login using the password, and fill up user information and reset the password<br><br>
+4. An email will be sent to the entered email with a login link and a temporary password<br>
+5. Login using this password, fill up user information and reset the password<br><br>
 
 ### Users List
 * Admins can see a list of users, with buttons to show a popup of each users details <br>
