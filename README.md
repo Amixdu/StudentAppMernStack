@@ -83,7 +83,7 @@ An initial admin seeder file can be run by following these steps:<br>
 10/11 Development tasks completed (unit testing not done)
 
 App Hosted On Heroku: https://studentapplicationmern.herokuapp.com/ <br>
-(Note: Using Docker and running on localhost is much faster than the running the app using the Heroku link)
+(Note: Using Docker and running on localhost is much faster than running the app using the Heroku link)
 
 
 
