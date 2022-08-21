@@ -16,7 +16,11 @@ Database - MongoDB <br>
 Authentication - JWTs <br> <br>
 
 
-## Project Setup
+App Hosted On Heroku: https://studentapplicationmern.herokuapp.com/ <br>
+(Note: Using Docker and running on localhost is much faster than running the app using the Heroku link, since front end and backend are both hosted on a free Heroku account)
+
+
+## Project Setup (For running on localhost)
 
 ### Step 1
 Clone the repo using: <br> `git clone https://github.com/Amixdu/StudentAppMernStack.git` <br>
@@ -24,7 +28,7 @@ And go into the directory using `cd StudentAppMernStack`
 <br><br>
 
 ### Step 2
-In the project directory, run the command `docker-compose up` to get everything started up (run `docker-compose build --no-cache` if any issues arise) <br><br>
+In the project directory, run the command `docker-compose up` (please ensure that docker desktop is running) to get everything started up (run `docker-compose build --no-cache` if any issues arise) <br><br>
 
 
 ### Step 3
@@ -72,18 +76,10 @@ An initial admin seeder file can be run by following these steps:<br>
 * Backend pagination implemented to show 5 users per page <br>
 * Admins can filter users by Email, Name or ID<br><br>
 
-
 ### Notes List
 * Students can see a list of notes, with options to add more notes, update and delete existing ones <br>
 * Backend pagination implemented to show 3 notes per page <br><br>
 
 
-
 ### Assignment Completion
 10/11 Development tasks completed (unit testing not done)
-
-App Hosted On Heroku: https://studentapplicationmern.herokuapp.com/ <br>
-(Note: Using Docker and running on localhost is much faster than running the app using the Heroku link)
-
-
-
